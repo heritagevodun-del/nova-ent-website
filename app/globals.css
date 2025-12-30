@@ -3,41 +3,55 @@
 @tailwind utilities;
 
 :root {
-  --background: 0 0% 3%;
-  --foreground: 0 0% 100%;
+  /* NOUVEAU FOND : Gris Anthracite très profond au lieu du noir pur. 
+     Cela crée de la profondeur et permet aux ombres d'exister. */
+  --background: 240 10% 4%; /* #0a0a0b */
+  --foreground: 0 0% 98%; /* Blanc cassé pour éviter l'éblouissement */
+  
+  /* NOUVELLE COULEUR ACCENT : Bleu Cyanide Électrique */
+  --accent-glow: 190 100% 50%; /* #00f7ff */
 }
 
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
-  /* Texture de bruit pour l'aspect premium */
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+  /* Texture de bruit plus subtile et raffinée */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-/* Scrollbar invisible mais fonctionnelle (Design épuré) */
+/* Scrollbar Cyberpunk */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: hsl(var(--background));
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: linear-gradient(to bottom, hsl(var(--accent-glow)), transparent);
+  border-radius: 3px;
 }
 
-/* Classes utilitaires pour le Glassmorphism */
+/* Classes utilitaires pour le Glassmorphism PREMIUM V2 */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.03);
-  /* CORRECTION ICI : Ajout du support Safari/iOS */
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  /* Fond plus clair pour le contraste */
+  background: rgba(255, 255, 255, 0.02);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  /* Bordure plus lumineuse et fine */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 4px 30px rgba(0, 0, 0, 0.2),
+    inset 0 0 20px rgba(255, 255, 255, 0.02);
+}
+
+/* Effet de survol puissant */
+.glass-panel:hover {
+  border-color: rgba(0, 247, 255, 0.3); /* Tiré de la couleur accent */
+  box-shadow: 
+    0 8px 40px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(0, 247, 255, 0.1),
+    inset 0 0 20px rgba(255, 255, 255, 0.05);
 }

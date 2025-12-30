@@ -7,15 +7,63 @@ import {
   Database,
   Layout,
   Server,
-  Globe,
   ArrowRight,
   ShieldCheck,
   Sparkles,
   Box,
+  Cpu,
 } from "lucide-react";
 
-// Chargement de la police Pro "Inter"
-const inter = Inter({ subsets: ["latin"] });
+// Police Inter configurée pour une lisibilité maximale
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "700", "800"],
+});
+
+// --- NOUVEAU LOGO N.E ---
+const LogoNE = () => (
+  <svg
+    width="40"
+    height="40"
+    viewBox="0 0 40 40"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M4 4H36V36H4V4Z"
+      stroke="url(#paint0_linear)"
+      strokeWidth="2"
+      strokeOpacity="0.5"
+    />
+    <path
+      d="M12 28V12L22 28V12"
+      stroke="white"
+      strokeWidth="2.5"
+      strokeLinecap="square"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M28 28V12H34M28 20H33M28 28H34"
+      stroke="white"
+      strokeWidth="2.5"
+      strokeLinecap="square"
+      strokeLinejoin="round"
+    />
+    <defs>
+      <linearGradient
+        id="paint0_linear"
+        x1="4"
+        y1="4"
+        x2="36"
+        y2="36"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stopColor="#00F7FF" />
+        <stop offset="1" stopColor="#0066FF" stopOpacity="0" />
+      </linearGradient>
+    </defs>
+  </svg>
+);
 
 // --- Composants ---
 
@@ -30,35 +78,42 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed w-full z-50 transition-all duration-500 ${
+      className={`fixed w-full z-50 transition-all duration-700 ${
         scrolled
-          ? "py-4 bg-black/50 backdrop-blur-xl border-b border-white/5"
+          ? "py-4 bg-[#0a0a0b]/80 backdrop-blur-xl border-b border-white/5 shadow-[0_0_30px_rgba(0,0,0,0.5)]"
           : "py-6 bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
-            <span className="text-white font-bold text-xl">N</span>
+        <div className="flex items-center gap-3 group cursor-pointer">
+          {/* Intégration du nouveau Logo N.E */}
+          <div className="relative">
+            <div className="absolute inset-0 bg-cyan-500/20 blur-lg rounded-full group-hover:blur-xl transition-all duration-500 opacity-50"></div>
+            <LogoNE />
           </div>
-          <span className="text-xl font-bold tracking-tight text-white">
-            NOVA<span className="text-blue-500">ENT</span>
+          <span className="text-xl font-extrabold tracking-tight text-white">
+            NOVA
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
+              ENT
+            </span>
           </span>
         </div>
-        <div className="hidden md:flex items-center gap-8">
-          {["Expertise", "Solutions", "Héritage Vodun", "Contact"].map(
-            (item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase().replace(" ", "-")}`}
-                className="text-sm font-medium text-gray-400 hover:text-white transition-colors"
-              >
-                {item}
-              </a>
-            )
-          )}
-          <button className="px-5 py-2.5 bg-white text-black text-sm font-bold rounded-lg hover:bg-blue-50 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.3)]">
-            Démarrer
+        <div className="hidden md:flex items-center gap-10">
+          {["Expertise", "Héritage Vodun", "Contact"].map((item) => (
+            <a
+              key={item}
+              href={`#${item.toLowerCase().replace(" ", "-")}`}
+              className="text-sm font-semibold text-gray-400 hover:text-white transition-colors uppercase tracking-wider"
+            >
+              {item}
+            </a>
+          ))}
+          <button className="relative group px-6 py-3 font-bold text-sm text-black overflow-hidden rounded-lg">
+            <span className="absolute inset-0 w-full h-full transition duration-300 bg-cyan-400 opacity-100 group-hover:opacity-90"></span>
+            <span className="absolute bottom-0 left-0 w-full h-1 transition duration-300 bg-white mix-blend-screen group-hover:h-full"></span>
+            <span className="relative z-10 flex items-center gap-2">
+              Initialiser <ArrowRight size={16} />
+            </span>
           </button>
         </div>
       </div>
@@ -66,7 +121,7 @@ const Navbar = () => {
   );
 };
 
-// Composant BentoCard optimisé
+// BentoCard Premium V2
 const BentoCard = ({
   title,
   desc,
@@ -79,17 +134,25 @@ const BentoCard = ({
   className?: string;
 }) => (
   <motion.div
-    whileHover={{ scale: 1.02 }}
-    className={`glass-panel p-8 rounded-3xl flex flex-col justify-between group relative overflow-hidden ${className}`}
+    whileHover={{ y: -5, scale: 1.01 }}
+    className={`glass-panel p-8 rounded-3xl flex flex-col justify-between group relative overflow-hidden transition-all duration-500 ${className}`}
   >
-    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+    {/* Lumière dynamique au survol */}
+    <div className="absolute -inset-x-20 -inset-y-20 bg-gradient-to-br from-cyan-500/10 via-blue-600/5 to-transparent opacity-0 group-hover:opacity-100 blur-2xl transition-opacity duration-700" />
 
     <div className="relative z-10">
-      <div className="w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-        <Icon className="text-blue-400" size={24} />
+      <div className="w-14 h-14 bg-gradient-to-br from-white/10 to-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-8 group-hover:border-cyan-500/30 transition-colors duration-300 shadow-[0_0_15px_rgba(0,247,255,0.1)]">
+        <Icon
+          className="text-cyan-300 group-hover:text-cyan-200 transition-colors"
+          size={26}
+        />
       </div>
-      <h3 className="text-2xl font-semibold text-white mb-3">{title}</h3>
-      <p className="text-gray-400 leading-relaxed text-sm">{desc}</p>
+      <h3 className="text-3xl font-bold text-white mb-4 tracking-tight">
+        {title}
+      </h3>
+      <p className="text-gray-300 font-medium leading-relaxed text-base">
+        {desc}
+      </p>
     </div>
   </motion.div>
 );
@@ -97,170 +160,183 @@ const BentoCard = ({
 export default function Home() {
   return (
     <div
-      className={`min-h-screen bg-[#050505] text-white selection:bg-blue-500/30 ${inter.className}`}
+      className={`min-h-screen selection:bg-cyan-500/30 selection:text-cyan-50 ${inter.className}`}
     >
       <Navbar />
 
-      {/* HERO SECTION - STYLE PREMIUM */}
+      {/* HERO SECTION - PUISSANCE MAXIMALE */}
       <section className="relative h-screen flex flex-col justify-center items-center overflow-hidden px-4">
-        {/* Glow Effects */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[128px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[128px]" />
+        {/* Glow Effects Intenses */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-blue-800/20 rounded-[100%] blur-[140px] animate-pulse-slow" />
+        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-cyan-800/10 rounded-full blur-[160px]" />
+        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10 z-0"></div>
 
-        <div className="relative z-10 text-center max-w-4xl mx-auto space-y-8">
+        <div className="relative z-10 text-center max-w-5xl mx-auto space-y-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-blue-300 backdrop-blur-sm"
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm font-semibold text-cyan-300 backdrop-blur-md shadow-[0_0_20px_rgba(0,247,255,0.1)]"
           >
-            <Sparkles size={12} />
-            <span>Architecture Logicielle & Design Avancé</span>
+            <Cpu size={16} className="animate-pulse" />
+            <span className="uppercase tracking-wider">
+              Ingénierie Haute Performance
+            </span>
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-6xl md:text-8xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-gray-500"
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            className="text-7xl md:text-9xl font-extrabold tracking-tighter leading-none text-white"
           >
-            Forged in Code. <br />
-            Rooted in{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">
-              Future.
+            L&apos;Architecture de
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-blue-500 pb-4">
+              l&apos;Invisible.
             </span>
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed"
+            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+            className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed font-medium"
           >
-            Nous ne créons pas seulement des sites web. Nous bâtissons des
-            infrastructures numériques complexes et des expériences culturelles
-            immersives.
+            Nous ne construisons pas des sites. Nous forgeons des écosystèmes
+            numériques critiques capables de redéfinir votre industrie. La
+            puissance sans compromis.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center pt-4"
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="flex flex-col sm:flex-row gap-6 justify-center pt-8"
           >
-            <button className="px-8 py-4 bg-white text-black font-bold rounded-full hover:scale-105 transition-transform flex items-center gap-2">
-              Nos Solutions <ArrowRight size={18} />
+            <button className="group relative px-8 py-4 bg-cyan-400 text-black font-extrabold text-lg rounded-lg overflow-hidden shadow-[0_0_30px_rgba(0,247,255,0.3)] hover:shadow-[0_0_50px_rgba(0,247,255,0.5)] transition-shadow">
+              <div className="absolute inset-0 w-0 bg-white transition-all duration-[400ms] ease-out group-hover:w-full"></div>
+              <span className="relative z-10 flex items-center gap-2">
+                Explorer les Capacités{" "}
+                <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+              </span>
             </button>
-            <button className="px-8 py-4 bg-white/5 border border-white/10 text-white font-semibold rounded-full hover:bg-white/10 transition-colors backdrop-blur-sm">
-              Découvrir le Studio
+            <button className="px-8 py-4 bg-transparent border-2 border-white/20 text-white font-bold text-lg rounded-lg hover:bg-white/5 hover:border-white/40 transition-all backdrop-blur-sm">
+              Le Studio
             </button>
           </motion.div>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 animate-bounce">
-          <div className="w-1 h-12 bg-gradient-to-b from-transparent via-gray-400 to-transparent"></div>
+        {/* Scroll Indicator Cyberpunk */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+          <span className="text-xs text-cyan-500 font-bold uppercase tracking-[0.3em] animate-pulse">
+            Scroll
+          </span>
+          <div className="w-[1px] h-24 bg-gradient-to-b from-cyan-500 to-transparent relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1/2 bg-white animate-scrolldown blur-[1px]"></div>
+          </div>
         </div>
       </section>
 
-      {/* SECTION BENTO GRID */}
-      <section id="expertise" className="py-32 px-4 max-w-7xl mx-auto">
-        <div className="mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            L&apos;Arsenal Technique
-          </h2>
-          <p className="text-gray-400 max-w-2xl text-lg">
-            Une suite complète de compétences pour transformer n&apos;importe
-            quel défi en solution logicielle.
-          </p>
-        </div>
+      {/* SECTION EXPERTISE - REWRITE PREMIUM */}
+      <section id="expertise" className="py-40 px-4 relative overflow-hidden">
+        {/* Background noise light */}
+        <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px]" />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 grid-rows-2 gap-6 h-auto md:h-[600px]">
-          {/* Grande carte gauche */}
-          <BentoCard
-            className="md:col-span-1 md:row-span-2 bg-gradient-to-b from-blue-900/10 to-transparent"
-            title="Architecture Logicielle"
-            desc="Conception de systèmes distribués, micro-services et infrastructures cloud-native robustes."
-            icon={Server}
-          />
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="mb-24 md:w-2/3">
+            <h2 className="text-5xl md:text-7xl font-extrabold mb-8 tracking-tight leading-tight">
+              Domination <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
+                Par la Technologie.
+              </span>
+            </h2>
+            <p className="text-gray-300 text-xl leading-relaxed font-medium">
+              Une maîtrise absolue des couches invisibles qui propulsent les
+              leaders du marché. Pas de stack technique à étaler, juste des
+              résultats bruts.
+            </p>
+          </div>
 
-          {/* Carte haut milieu */}
-          <BentoCard
-            className="md:col-span-1"
-            title="Développement Web"
-            desc="Next.js 15, React, TypeScript. Performance absolue."
-            icon={Globe}
-          />
+          <div className="grid grid-cols-1 md:grid-cols-3 grid-rows-2 gap-8 h-auto md:h-[700px]">
+            {/* Grande carte gauche - Infrastructure */}
+            <BentoCard
+              className="md:col-span-1 md:row-span-2 bg-gradient-to-b from-[#1a1a2e] to-transparent border-blue-900/30"
+              title="Infrastructure Critique"
+              desc="Conception de systèmes névralgiques capables d'encaisser une charge planétaire sans faillir. Résilience militaire."
+              icon={Server}
+            />
 
-          {/* Carte haut droite */}
-          <BentoCard
-            className="md:col-span-1"
-            title="Design UI/UX"
-            desc="Interfaces fluides centrées sur l'humain."
-            icon={Layout}
-          />
+            {/* Carte haut milieu - Performance */}
+            <BentoCard
+              className="md:col-span-1"
+              title="Vélocité Pure"
+              desc="Des interfaces instantanées. Nous supprimons la friction entre l'intention de l'utilisateur et l'action."
+              icon={Sparkles}
+            />
 
-          {/* Large carte bas */}
-          <BentoCard
-            className="md:col-span-2"
-            title="Engineering & Data"
-            desc="Optimisation de bases de données complexes et algorithmes performants."
-            icon={Database}
-          />
+            {/* Carte haut droite - Design */}
+            <BentoCard
+              className="md:col-span-1"
+              title="Expérience Immersive"
+              desc="Quand l'esthétique radicale rencontre la fonction pure. Un design qui marque les esprits."
+              icon={Layout}
+            />
+
+            {/* Large carte bas - Data */}
+            <BentoCard
+              className="md:col-span-2 bg-gradient-to-tr from-[#111] to-[#1a1a2e]"
+              title="Intelligence des Données"
+              desc="Transformer le chaos informationnel en avantage stratégique. Algorithmes prédictifs et traitement massif en temps réel."
+              icon={Database}
+            />
+          </div>
         </div>
       </section>
 
-      {/* SECTION HERITAGE VODUN */}
-      <section id="heritage-vodun" className="py-32 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-[#1a1200] to-black" />
+      {/* SECTION HERITAGE VODUN - MYSTIQUE ET PUISSANTE */}
+      <section id="heritage-vodun" className="py-40 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0b] via-[#1a1200] to-[#0a0a0b]" />
+        {/* Lumière dorée mystique */}
+        <div className="absolute bottom-0 left-1/4 w-[600px] h-[600px] bg-yellow-600/10 rounded-full blur-[150px]" />
 
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="flex flex-col md:flex-row gap-12 items-center rounded-3xl bg-white/5 border border-yellow-500/20 p-8 md:p-16 backdrop-blur-md overflow-hidden">
-            {/* Background Texture for Card */}
-            <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 mix-blend-overlay"></div>
+          <div className="flex flex-col md:flex-row gap-16 items-center rounded-[3rem] bg-white/5 border border-yellow-500/20 p-10 md:p-20 backdrop-blur-xl shadow-[0_0_50px_rgba(255,200,0,0.1)] overflow-hidden group">
+            {/* Background Texture subtle */}
+            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
 
-            <div className="w-full md:w-1/2 space-y-8">
-              <div className="inline-block px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded text-yellow-500 text-xs font-bold tracking-[0.2em] uppercase">
-                Division Culturelle
+            <div className="w-full md:w-1/2 space-y-10 relative z-10">
+              <div className="inline-flex items-center gap-3 px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 rounded-full text-yellow-400 text-sm font-bold tracking-[0.2em] uppercase shadow-[0_0_20px_rgba(255,200,0,0.2)]">
+                <ShieldCheck size={16} /> Division Culturelle
               </div>
-              <h2 className="text-4xl md:text-6xl font-serif text-white">
+              <h2 className="text-5xl md:text-7xl font-serif text-white leading-none">
                 L&apos;Esprit{" "}
-                <span className="text-yellow-500 italic">Vodun</span>
+                <span className="text-yellow-500 italic">Vodun.</span>
+                <br />
+                Magnifié.
               </h2>
-              <p className="text-gray-300 text-lg leading-relaxed">
-                Nova ENT ne se contente pas du code. Nous préservons
-                l&apos;histoire. À travers notre filiale{" "}
-                <strong>Héritage Vodun</strong>, nous utilisons la technologie
-                de pointe pour archiver, diffuser et magnifier le patrimoine
-                culturel immatériel.
+              <p className="text-gray-300 text-xl leading-relaxed font-medium">
+                Notre technologie ne sert pas qu&apos;à l&apos;industrie. Elle
+                préserve l&apos;âme. Via <strong>Héritage Vodun</strong>, nous
+                déployons nos capacités pour archiver le patrimoine immatériel
+                dans l&apos;éternité numérique.
               </p>
 
-              <div className="grid grid-cols-2 gap-4 pt-4">
-                <div className="flex items-center gap-3 text-yellow-100/70">
-                  <ShieldCheck size={20} className="text-yellow-500" />{" "}
-                  Numérisation 3D
-                </div>
-                <div className="flex items-center gap-3 text-yellow-100/70">
-                  <ShieldCheck size={20} className="text-yellow-500" />{" "}
-                  Événementiel
-                </div>
-              </div>
-
-              <button className="mt-8 px-8 py-4 bg-gradient-to-r from-yellow-600 to-yellow-700 text-black font-bold rounded-lg shadow-lg shadow-yellow-900/40 hover:scale-105 transition-transform">
-                Explorer l&apos;Héritage
+              <button className="mt-8 px-10 py-5 bg-gradient-to-r from-yellow-600 to-yellow-700 text-black font-extrabold text-lg rounded-lg shadow-[0_0_30px_rgba(255,200,0,0.4)] hover:scale-105 transition-transform hover:shadow-[0_0_50px_rgba(255,200,0,0.6)]">
+                Pénétrer le Sanctuaire Digital
               </button>
             </div>
 
-            <div className="w-full md:w-1/2 relative h-[400px] flex items-center justify-center">
-              <div className="absolute inset-0 bg-gradient-to-tr from-yellow-500/20 to-transparent rounded-2xl blur-3xl"></div>
-              <div className="relative z-10 bg-black/80 p-8 rounded-2xl border border-yellow-500/30 text-center max-w-sm">
-                <Box className="w-16 h-16 text-yellow-500 mx-auto mb-6" />
-                <h3 className="text-2xl font-serif text-white mb-2">
-                  Musée Virtuel
+            <div className="w-full md:w-1/2 relative h-[500px] flex items-center justify-center perspective-1000">
+              {/* Effet 3D Holographique */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-yellow-500/20 to-transparent rounded-3xl blur-3xl animate-pulse-slow"></div>
+              <div className="relative z-10 bg-black/60 p-12 rounded-3xl border border-yellow-500/40 text-center max-w-md transform transition-transform duration-700 group-hover:rotate-y-6 group-hover:scale-105 backdrop-blur-md shadow-2xl">
+                <Box className="w-20 h-20 text-yellow-400 mx-auto mb-8 animate-float" />
+                <h3 className="text-3xl font-serif text-white mb-4">
+                  Le Musée Virtuel
                 </h3>
-                <p className="text-gray-400 text-sm">
-                  Prochainement : Une expérience immersive en réalité virtuelle
-                  au cœur des temples sacrés.
+                <p className="text-yellow-100/80 text-lg">
+                  Une immersion en réalité étendue au cœur des temples sacrés,
+                  défiant l&apos;espace et le temps.
                 </p>
               </div>
             </div>
@@ -268,46 +344,61 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER PREMIUM */}
-      <footer className="border-t border-white/10 bg-black py-20 px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
-          <div className="col-span-1 md:col-span-2 space-y-6">
-            <h2 className="text-3xl font-bold tracking-tighter text-white">
-              NOVA<span className="text-blue-600">ENT</span>.
-            </h2>
-            <p className="text-gray-500 max-w-sm">
-              Définir les standards de l&apos;ingénierie numérique en Afrique et
-              dans le monde.
+      {/* FOOTER MONOLITHIQUE */}
+      <footer className="border-t border-white/5 bg-[#050506] py-24 px-6 relative overflow-hidden">
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1000px] h-[300px] bg-cyan-900/10 rounded-[100%] blur-[120px]" />
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 relative z-10">
+          <div className="col-span-1 md:col-span-2 space-y-8">
+            <div className="flex items-center gap-3">
+              <LogoNE />
+              <h2 className="text-3xl font-extrabold tracking-tighter text-white">
+                NOVA<span className="text-cyan-500">ENT</span>.
+              </h2>
+            </div>
+            <p className="text-gray-400 max-w-md text-lg font-medium leading-relaxed">
+              Définir les nouveaux standards de l&apos;ingénierie numérique.
+              Puissance, précision, pérennité.
             </p>
           </div>
-          <div className="space-y-4">
-            <h4 className="text-white font-semibold">Services</h4>
-            <ul className="space-y-2 text-sm text-gray-500">
-              <li className="hover:text-blue-400 transition-colors cursor-pointer">
-                Développement
+          <div className="space-y-6">
+            <h4 className="text-white font-bold uppercase tracking-wider">
+              Capacités
+            </h4>
+            <ul className="space-y-4 text-gray-500 font-medium">
+              <li className="hover:text-cyan-400 transition-colors cursor-pointer">
+                Systèmes Critiques
               </li>
-              <li className="hover:text-blue-400 transition-colors cursor-pointer">
-                Design System
+              <li className="hover:text-cyan-400 transition-colors cursor-pointer">
+                Interfaces Avancées
               </li>
-              <li className="hover:text-blue-400 transition-colors cursor-pointer">
-                Cloud Architecture
+              <li className="hover:text-cyan-400 transition-colors cursor-pointer">
+                Architecture Cloud
               </li>
             </ul>
           </div>
-          <div className="space-y-4">
-            <h4 className="text-white font-semibold">Société</h4>
-            <ul className="space-y-2 text-sm text-gray-500">
+          <div className="space-y-6">
+            <h4 className="text-white font-bold uppercase tracking-wider">
+              Contact
+            </h4>
+            <ul className="space-y-4 text-gray-500 font-medium">
               <li className="hover:text-white transition-colors cursor-pointer">
-                À propos
+                Initialiser un projet
               </li>
               <li className="hover:text-white transition-colors cursor-pointer">
                 Carrières
               </li>
               <li className="hover:text-white transition-colors cursor-pointer">
-                Contact
+                Ouidah, Bénin
               </li>
             </ul>
           </div>
+        </div>
+        <div className="max-w-7xl mx-auto mt-20 pt-8 border-t border-white/5 flex justify-between items-center text-gray-600 text-sm font-medium">
+          <p>
+            © {new Date().getFullYear()} NOVA ENT. Tous droits réservés.
+            Excellence en ingénierie.
+          </p>
+          <p>Fabriqué par N.E pour vous</p>
         </div>
       </footer>
     </div>
