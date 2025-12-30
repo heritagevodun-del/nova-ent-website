@@ -186,7 +186,7 @@ const Navbar = () => {
             onClick={() => handleNavClick("contact")}
             className="text-2xl font-bold text-cyan-400 uppercase tracking-widest"
           >
-            Initialiser le projet
+            Contact
           </button>
         </motion.div>
       )}
