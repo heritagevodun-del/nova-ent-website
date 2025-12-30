@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import SmoothScroll from "./components/SmoothScroll"; // 1. On importe le moteur
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,11 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      {/* 2. On injecte le SmoothScroll juste avant les children dans le body */}
-      <body className={inter.className}>
-        <SmoothScroll />
-        {children}
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }
