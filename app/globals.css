@@ -2,33 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
-/* --- AJOUT CRUCIAL POUR LA NAVIGATION --- */
-html {
-  scroll-behavior: smooth; /* Active le défilement doux */
-  scroll-padding-top: 100px; /* Crée une zone tampon pour que le menu ne cache pas les titres */
+/* --- CONFIGURATION DU MOTEUR LENIS (Scroll Fluide) --- */
+html.lenis, html.lenis body {
+  height: auto;
 }
 
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important; /* On force le navigateur à laisser Lenis gérer */
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* --- DESIGN SYSTEM NOVA ENT --- */
+
 :root {
-  /* NOUVEAU FOND : Gris Anthracite très profond au lieu du noir pur. 
-     Cela crée de la profondeur et permet aux ombres d'exister. */
+  /* FOND : Gris Anthracite très profond */
   --background: 240 10% 4%; /* #0a0a0b */
-  --foreground: 0 0% 98%; /* Blanc cassé pour éviter l'éblouissement */
+  --foreground: 0 0% 98%; 
   
-  /* NOUVELLE COULEUR ACCENT : Bleu Cyanide Électrique */
+  /* ACCENT : Bleu Cyanide Électrique */
   --accent-glow: 190 100% 50%; /* #00f7ff */
 }
 
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
-  /* Texture de bruit plus subtile et raffinée */
+  /* Texture de bruit Premium */
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* Scrollbar Cyberpunk (Ton design original conservé) */
+/* Scrollbar Cyberpunk */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -40,22 +56,19 @@ body {
   border-radius: 3px;
 }
 
-/* Classes utilitaires pour le Glassmorphism PREMIUM V2 */
+/* Classes Glassmorphism PREMIUM V2 */
 .glass-panel {
-  /* Fond plus clair pour le contraste */
   background: rgba(255, 255, 255, 0.02);
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
-  /* Bordure plus lumineuse et fine */
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 
     0 4px 30px rgba(0, 0, 0, 0.2),
     inset 0 0 20px rgba(255, 255, 255, 0.02);
 }
 
-/* Effet de survol puissant */
 .glass-panel:hover {
-  border-color: rgba(0, 247, 255, 0.3); /* Tiré de la couleur accent */
+  border-color: rgba(0, 247, 255, 0.3);
   box-shadow: 
     0 8px 40px rgba(0, 0, 0, 0.3),
     0 0 30px rgba(0, 247, 255, 0.1),

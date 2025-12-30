@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css"; // <--- C'EST LA LIGNE VITALE
+import "./globals.css";
+import SmoothScroll from "./components/SmoothScroll"; // 1. On importe le moteur
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "NOVA ENT",
+  title: "NOVA ENT | Engineering Excellence",
   description: "Agence digitale et Héritage Vodun",
 };
 
@@ -16,7 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className={inter.className}>{children}</body>
+      {/* 2. On injecte le SmoothScroll juste avant les children dans le body */}
+      <body className={inter.className}>
+        <SmoothScroll />
+        {children}
+      </body>
     </html>
   );
 }
