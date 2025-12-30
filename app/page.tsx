@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Inter, Cinzel } from "next/font/google";
+// CORRECTION 1 : Ajout de "ExternalLink" dans la liste des imports ci-dessous
 import {
   Database,
   ArrowRight,
@@ -19,6 +20,7 @@ import {
   History,
   Landmark,
   Zap,
+  ExternalLink,
 } from "lucide-react";
 
 // Polices
@@ -32,6 +34,7 @@ const cinzel = Cinzel({ subsets: ["latin"], weight: ["400", "700"] });
 const CONTACT_EMAIL = "joindre.novaent@gmail.com";
 const WHATSAPP_NUMBER = "22969783365";
 const MAP_LINK = "https://www.google.com/maps/search/?api=1&query=Ouidah+Benin";
+const HERITAGE_URL = "https://www.heritagevodun.com/";
 
 // --- LOGO N.E ---
 const LogoNE = () => (
@@ -98,11 +101,15 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollTo = (id: string) => {
+  const handleNavClick = (key: string) => {
     setMobileMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+    if (key === "heritage") {
+      window.open(HERITAGE_URL, "_blank");
+    } else {
+      const element = document.getElementById(key);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
 
@@ -126,17 +133,21 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-10">
-          {["Expertise", "Héritage Vodun"].map((item) => (
-            <button
-              key={item}
-              onClick={() => scrollTo(item.toLowerCase().replace(" ", "-"))}
-              className="text-sm font-semibold text-gray-300 hover:text-white transition-colors uppercase tracking-wider"
-            >
-              {item}
-            </button>
-          ))}
           <button
-            onClick={() => scrollTo("contact")}
+            onClick={() => handleNavClick("expertise")}
+            className="text-sm font-semibold text-gray-300 hover:text-white transition-colors uppercase tracking-wider"
+          >
+            Expertise
+          </button>
+          <button
+            onClick={() => handleNavClick("heritage")}
+            className="text-sm font-semibold text-gray-300 hover:text-white transition-colors uppercase tracking-wider flex items-center gap-1"
+          >
+            Héritage Vodun <ExternalLink size={12} className="opacity-50" />
+          </button>
+
+          <button
+            onClick={() => handleNavClick("contact")}
             className="px-6 py-2 bg-white text-black hover:bg-cyan-50 font-bold rounded-lg transition-all text-sm flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(0,247,255,0.4)]"
           >
             Initialiser <ArrowRight size={16} />
@@ -159,17 +170,20 @@ const Navbar = () => {
           animate={{ opacity: 1, y: 0 }}
           className="absolute top-0 left-0 w-full h-screen bg-[#0f172a] flex flex-col items-center justify-center gap-10 md:hidden z-40"
         >
-          {["Expertise", "Héritage Vodun"].map((item) => (
-            <button
-              key={item}
-              onClick={() => scrollTo(item.toLowerCase().replace(" ", "-"))}
-              className="text-2xl font-bold text-white uppercase tracking-widest"
-            >
-              {item}
-            </button>
-          ))}
           <button
-            onClick={() => scrollTo("contact")}
+            onClick={() => handleNavClick("expertise")}
+            className="text-2xl font-bold text-white uppercase tracking-widest"
+          >
+            Expertise
+          </button>
+          <button
+            onClick={() => handleNavClick("heritage")}
+            className="text-2xl font-bold text-white uppercase tracking-widest flex items-center gap-2"
+          >
+            Héritage Vodun <ExternalLink size={20} />
+          </button>
+          <button
+            onClick={() => handleNavClick("contact")}
             className="text-2xl font-bold text-cyan-400 uppercase tracking-widest"
           >
             Initialiser le projet
@@ -256,6 +270,7 @@ const ContactSection = () => {
                 Concrétisez votre <br />
                 Ambition.
               </h2>
+              {/* CORRECTION 2 : l'expertise -> l&apos;expertise */}
               <p className="text-gray-300 text-lg leading-relaxed">
                 Vous avez une vision ? Nous avons l&apos;expertise pour la
                 réaliser. <br />
@@ -376,6 +391,7 @@ export default function Home() {
             <span>Solutions Digitales Premium</span>
           </motion.div>
 
+          {/* CORRECTION 3 : L'Excellence -> L&apos;Excellence */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -446,6 +462,7 @@ export default function Home() {
               desc="Soyez visible partout. Nous développons des sites web et des applications mobiles rapides, intuitives et conçues pour convertir vos visiteurs en clients."
               icon={Code}
             />
+            {/* CORRECTION 4 : l'identité -> l&apos;identité */}
             <BentoCard
               className="md:col-span-1 min-h-[250px]"
               title="Design Impactant"
@@ -462,9 +479,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION HERITAGE VODUN */}
+      {/* SECTION HERITAGE VODUN - VITRINE (TEASER) */}
       <section
-        id="heritage-vodun"
+        id="heritage"
         className={`py-20 md:py-32 relative overflow-hidden bg-[#0a0500] ${cinzel.className}`}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a1000] to-black opacity-80" />
@@ -496,13 +513,18 @@ export default function Home() {
               transition={{ delay: 0.2 }}
               className="text-amber-100/70 max-w-2xl mx-auto text-xl italic font-serif"
             >
+              {/* CORRECTION 5 : guillemets -> &quot; et l'histoire -> l&apos;histoire */}
               &quot;Préserver l&apos;histoire pour les générations futures grâce
               au numérique.&quot;
             </motion.p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="p-8 md:p-12 rounded-3xl bg-[#150a00] border border-amber-900/30 hover:border-amber-600/50 transition-colors group">
+            <a
+              href={HERITAGE_URL}
+              target="_blank"
+              className="p-8 md:p-12 rounded-3xl bg-[#150a00] border border-amber-900/30 hover:border-amber-600/50 transition-colors group cursor-pointer block"
+            >
               <div className="text-amber-500 mb-6">
                 <Landmark size={40} />
               </div>
@@ -512,20 +534,26 @@ export default function Home() {
               <h3 className="text-3xl text-white mb-4 font-serif">
                 Centre Culturel à Ouidah
               </h3>
+              {/* CORRECTION 6 : l'histoire -> l&apos;histoire */}
               <p className="text-gray-400 font-sans leading-relaxed mb-6">
                 Situé au cœur de la cité historique, notre centre est un espace
                 vivant. Expositions, conférences et médiation culturelle pour
                 vivre l&apos;histoire en direct.
               </p>
               <div className="inline-flex items-center gap-2 text-amber-500 font-bold uppercase text-xs">
-                Visiter le centre <ArrowRight size={14} />
+                Visiter le site dédié <ArrowRight size={14} />
               </div>
-            </div>
+            </a>
 
-            <div className="p-8 md:p-12 rounded-3xl bg-gradient-to-br from-[#0c1220] to-black border border-cyan-900/30 hover:border-cyan-500/30 transition-colors group">
+            <a
+              href={HERITAGE_URL}
+              target="_blank"
+              className="p-8 md:p-12 rounded-3xl bg-gradient-to-br from-[#0c1220] to-black border border-cyan-900/30 hover:border-cyan-500/30 transition-colors group cursor-pointer block"
+            >
               <div className="text-cyan-500 mb-6">
                 <History size={40} />
               </div>
+              {/* CORRECTION 7 : L'Innovation -> L&apos;Innovation */}
               <div className="text-cyan-600 font-bold tracking-widest text-xs uppercase mb-2">
                 L&apos;Innovation
               </div>
@@ -538,9 +566,9 @@ export default function Home() {
                 découvrir le patrimoine Vodun.
               </p>
               <div className="inline-flex items-center gap-2 text-cyan-500 font-bold uppercase text-xs">
-                Découvrir le projet <Box size={14} />
+                Accéder au Métavers <Box size={14} />
               </div>
-            </div>
+            </a>
           </div>
         </div>
       </section>

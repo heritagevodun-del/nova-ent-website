@@ -16,15 +16,15 @@ export default function Icon() {
       <div
         style={{
           fontSize: 20,
-          background: "#0a0a0b", // Notre Noir Anthracite
+          background: "#0f172a",
           width: "100%",
           height: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           color: "white",
-          borderRadius: "8px", // Bord arrondis (Squircle)
-          border: "2px solid #00F7FF", // Bordure Cyan Électrique
+          borderRadius: "8px",
+          border: "2px solid #00F7FF",
           fontWeight: 900,
           fontFamily: "sans-serif",
         }}
