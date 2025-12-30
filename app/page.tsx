@@ -139,7 +139,7 @@ const Navbar = () => {
             onClick={() => scrollTo("contact")}
             className="px-6 py-2 bg-cyan-500/10 border border-cyan-500/50 text-cyan-400 hover:bg-cyan-400 hover:text-black font-bold rounded-lg transition-all text-sm flex items-center gap-2 group"
           >
-            Initialiser{" "}
+            CONTACT{" "}
             <ArrowRight
               size={16}
               className="group-hover:translate-x-1 transition-transform"
@@ -261,8 +261,8 @@ const ContactSection = () => {
                 Canal Sécurisé
               </span>
               <h2 className="text-4xl md:text-6xl font-extrabold text-white mt-2 mb-6">
-                Initialiser la <br />
-                Communication.
+                OPEN FOR <br />
+                BUSINESS
               </h2>
               <p className="text-gray-400 text-lg leading-relaxed">
                 Prêt à redéfinir les standards ? Notre équipe est basée à
@@ -309,7 +309,7 @@ const ContactSection = () => {
           <div className="bg-[#121214] p-8 md:p-10 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 blur-[50px] rounded-full"></div>
             <h3 className="text-2xl font-bold text-white mb-8">
-              Transmission de Données
+              Parlez nous de votre projet
             </h3>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -401,9 +401,9 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-5xl sm:text-7xl md:text-9xl font-extrabold tracking-tighter leading-none text-white"
           >
-            L&quotArchitecture de
+            Innnovation
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-blue-500 pb-2 md:pb-4">
-              l&quotInvisible.
+              Numérique.
             </span>
           </motion.h1>
 
@@ -462,8 +462,8 @@ export default function Home() {
               </span>
             </h2>
             <p className="text-gray-300 text-lg md:text-xl leading-relaxed font-medium">
-              Une suite complète de compétences pour transformer n&quot;importe
-              quel défi en solution logicielle souveraine.
+              Une suite complète de compétences pour transformer vos idées en
+              solution logicielle souveraine.
             </p>
           </div>
 
