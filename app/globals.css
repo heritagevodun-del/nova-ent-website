@@ -2,42 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Configuration Globale Expert */
-
 :root {
-  /* Définit le mode sombre comme standard pour le navigateur */
-  color-scheme: dark;
-}
-
-html {
-  /* Indispensable pour l'effet "glissement" quand on clique sur le menu */
-  scroll-behavior: smooth;
+  --background: 0 0% 3%;
+  --foreground: 0 0% 100%;
 }
 
 body {
-  /* Force le fond noir et l'écriture blanche par défaut */
-  background-color: #000000;
-  color: #ffffff;
-  
-  /* Lissage des polices (Rendu HD pour les écrans Retina/4K) */
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  /* Texture de bruit pour l'aspect premium */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Personnalisation de la barre de défilement (Scrollbar) pour Chrome/Safari/Edge */
+/* Scrollbar invisible mais fonctionnelle (Design épuré) */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #2563eb; /* Bleu Nova au survol */
+/* Classes utilitaires pour le Glassmorphism */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.03);
+  /* CORRECTION ICI : Ajout du support Safari/iOS */
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }

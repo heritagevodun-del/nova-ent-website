@@ -2,344 +2,311 @@
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Inter } from "next/font/google";
 import {
-  Code2,
   Database,
   Layout,
   Server,
-  Palette,
   Globe,
   ArrowRight,
-  CheckCircle2,
-  Menu,
-  X,
-  Terminal,
+  ShieldCheck,
+  Sparkles,
+  Box,
 } from "lucide-react";
 
-// --- Composants UI ---
+// Chargement de la police Pro "Inter"
+const inter = Inter({ subsets: ["latin"] });
+
+// --- Composants ---
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: "Expertise IT", href: "#expertise-it" },
-    { name: "Héritage Vodun", href: "#heritage-vodun" },
-    { name: "Portfolio", href: "#portfolio" },
-    { name: "Contact", href: "#contact" },
-  ];
-
   return (
     <nav
-      className={`fixed w-full z-50 transition-all duration-300 ${
+      className={`fixed w-full z-50 transition-all duration-500 ${
         scrolled
-          ? "bg-black/90 backdrop-blur-md border-b border-white/10"
-          : "bg-transparent"
+          ? "py-4 bg-black/50 backdrop-blur-xl border-b border-white/5"
+          : "py-6 bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          <div className="flex-shrink-0 flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
-              <span className="text-white font-bold text-lg">N</span>
-            </div>
-            <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">
-              NOVA<span className="text-white">ENT</span>
-            </span>
+      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        <div className="flex items-center gap-2">
+          <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
+            <span className="text-white font-bold text-xl">N</span>
           </div>
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8">
-              {navLinks.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="text-gray-300 hover:text-white hover:bg-white/10 px-3 py-2 rounded-md text-sm font-medium transition-colors"
-                >
-                  {item.name}
-                </a>
-              ))}
-              <button className="bg-white text-black px-4 py-2 rounded-full font-bold hover:bg-blue-400 hover:text-white transition-all text-sm">
-                Démarrer un projet
-              </button>
-            </div>
-          </div>
-          <div className="-mr-2 flex md:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-400 hover:text-white p-2"
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
+          <span className="text-xl font-bold tracking-tight text-white">
+            NOVA<span className="text-blue-500">ENT</span>
+          </span>
+        </div>
+        <div className="hidden md:flex items-center gap-8">
+          {["Expertise", "Solutions", "Héritage Vodun", "Contact"].map(
+            (item) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase().replace(" ", "-")}`}
+                className="text-sm font-medium text-gray-400 hover:text-white transition-colors"
+              >
+                {item}
+              </a>
+            )
+          )}
+          <button className="px-5 py-2.5 bg-white text-black text-sm font-bold rounded-lg hover:bg-blue-50 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+            Démarrer
+          </button>
         </div>
       </div>
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden bg-black/95 backdrop-blur-xl border-b border-white/10">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {navLinks.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-              >
-                {item.name}
-              </a>
-            ))}
-          </div>
-        </div>
-      )}
     </nav>
   );
 };
 
-// CORRECTION 1 : Remplacement de "any" par "React.ElementType" pour satisfaire TypeScript
-const ServiceCard = ({
-  icon: Icon,
+// Composant BentoCard optimisé
+const BentoCard = ({
   title,
   desc,
+  icon: Icon,
+  className = "",
 }: {
-  icon: React.ElementType;
   title: string;
   desc: string;
+  icon: React.ElementType;
+  className?: string;
 }) => (
   <motion.div
-    whileHover={{ y: -5 }}
-    className="bg-white/5 border border-white/10 p-6 rounded-2xl hover:border-blue-500/50 transition-colors group relative overflow-hidden"
+    whileHover={{ scale: 1.02 }}
+    className={`glass-panel p-8 rounded-3xl flex flex-col justify-between group relative overflow-hidden ${className}`}
   >
-    <div className="absolute top-0 right-0 w-20 h-20 bg-blue-500/5 rounded-bl-full -mr-4 -mt-4 transition-all group-hover:bg-blue-500/10" />
-    <div className="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-blue-500/20 transition-colors">
-      <Icon className="text-blue-400 group-hover:text-blue-300" size={24} />
+    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+    <div className="relative z-10">
+      <div className="w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+        <Icon className="text-blue-400" size={24} />
+      </div>
+      <h3 className="text-2xl font-semibold text-white mb-3">{title}</h3>
+      <p className="text-gray-400 leading-relaxed text-sm">{desc}</p>
     </div>
-    <h3 className="text-xl font-semibold text-white mb-2">{title}</h3>
-    <p className="text-gray-400 text-sm leading-relaxed">{desc}</p>
   </motion.div>
 );
 
-// --- Page Principale ---
-
 export default function Home() {
-  // CORRECTION 2 : Suppression des variables inutilisées (yBg) pour nettoyer le code
-
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-blue-500/30 font-sans">
+    <div
+      className={`min-h-screen bg-[#050505] text-white selection:bg-blue-500/30 ${inter.className}`}
+    >
       <Navbar />
 
-      {/* HERO SECTION */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-        {/* Abstract Background */}
-        <div className="absolute inset-0 z-0">
-          <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px]" />
-          <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[120px]" />
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
-        </div>
+      {/* HERO SECTION - STYLE PREMIUM */}
+      <section className="relative h-screen flex flex-col justify-center items-center overflow-hidden px-4">
+        {/* Glow Effects */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[128px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[128px]" />
 
-        <div className="relative z-10 text-center max-w-5xl mx-auto px-4">
+        <div className="relative z-10 text-center max-w-4xl mx-auto space-y-8">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-blue-300 backdrop-blur-sm"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 border border-white/10 rounded-full bg-white/5 backdrop-blur-sm">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-              <span className="text-xs font-medium text-blue-200 uppercase tracking-wider">
-                Disponible pour nouveaux projets
-              </span>
-            </div>
+            <Sparkles size={12} />
+            <span>Architecture Logicielle & Design Avancé</span>
+          </motion.div>
 
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8">
-              <span className="block text-white">Digital Architects.</span>
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-blue-600">
-                Cultural Guardians.
-              </span>
-            </h1>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-6xl md:text-8xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-gray-500"
+          >
+            Forged in Code. <br />
+            Rooted in{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">
+              Future.
+            </span>
+          </motion.h1>
 
-            {/* CORRECTION 3 : Remplacement des apostrophes (') par &apos; */}
-            <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-              Nova ENT fusionne l&apos;excellence de l&apos;ingénierie
-              logicielle et la profondeur de l&apos;héritage culturel. Nous
-              construisons des écosystèmes numériques puissants.
-            </p>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed"
+          >
+            Nous ne créons pas seulement des sites web. Nous bâtissons des
+            infrastructures numériques complexes et des expériences culturelles
+            immersives.
+          </motion.p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <button className="px-8 py-4 bg-blue-600 hover:bg-blue-700 rounded-full font-semibold transition-all flex items-center gap-2 shadow-lg shadow-blue-900/20 group">
-                Nos Services IT{" "}
-                <ArrowRight
-                  size={18}
-                  className="group-hover:translate-x-1 transition-transform"
-                />
-              </button>
-              <button className="px-8 py-4 bg-transparent hover:bg-white/5 border border-white/20 rounded-full font-semibold transition-all flex items-center gap-2">
-                <Terminal size={18} className="text-gray-400" />
-                Découvrir Héritage Vodun
-              </button>
-            </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center pt-4"
+          >
+            <button className="px-8 py-4 bg-white text-black font-bold rounded-full hover:scale-105 transition-transform flex items-center gap-2">
+              Nos Solutions <ArrowRight size={18} />
+            </button>
+            <button className="px-8 py-4 bg-white/5 border border-white/10 text-white font-semibold rounded-full hover:bg-white/10 transition-colors backdrop-blur-sm">
+              Découvrir le Studio
+            </button>
           </motion.div>
         </div>
-      </section>
 
-      {/* TECH SERVICES SECTION */}
-      <section id="expertise-it" className="py-24 bg-black relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <h2 className="text-3xl md:text-5xl font-bold mb-6">
-              Ingénierie & Créativité
-            </h2>
-            <div className="w-24 h-1 bg-blue-600 mx-auto rounded-full mb-6"></div>
-            <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-              Une maîtrise complète de la chaîne de valeur numérique, du backend
-              robuste au frontend pixel-perfect.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <ServiceCard
-              icon={Globe}
-              title="Développement Web"
-              desc="Sites vitrines, e-commerce et applications web progressives (PWA) utilisant Next.js 15."
-            />
-            <ServiceCard
-              icon={Code2}
-              title="Édition Logiciel"
-              desc="Solutions SAAS sur mesure, architectures scalables et API RESTful performantes."
-            />
-            <ServiceCard
-              icon={Database}
-              title="Data Engineering"
-              desc="Administration BDD, sécurisation des données et infrastructure Cloud (AWS/Azure)."
-            />
-            <ServiceCard
-              icon={Server}
-              title="Architecture SI"
-              desc="Audit technique, refonte de systèmes hérités et conception de micro-services."
-            />
-            <ServiceCard
-              icon={Layout}
-              title="UI/UX Design"
-              desc="Interfaces centrées utilisateur, maquettage Figma et prototypage haute fidélité."
-            />
-            <ServiceCard
-              icon={Palette}
-              title="Branding & Graphisme"
-              desc="Création d'identité visuelle forte pour marquer les esprits durablement."
-            />
-          </div>
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 animate-bounce">
+          <div className="w-1 h-12 bg-gradient-to-b from-transparent via-gray-400 to-transparent"></div>
         </div>
       </section>
 
-      {/* HERITAGE VODUN SECTION */}
-      <section id="heritage-vodun" className="py-32 relative overflow-hidden">
-        {/* Background Theme: Gold/Earth */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-[#1a1200] to-black z-0" />
+      {/* SECTION BENTO GRID */}
+      <section id="expertise" className="py-32 px-4 max-w-7xl mx-auto">
+        <div className="mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            L&apos;Arsenal Technique
+          </h2>
+          <p className="text-gray-400 max-w-2xl text-lg">
+            Une suite complète de compétences pour transformer n&apos;importe
+            quel défi en solution logicielle.
+          </p>
+        </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-16">
-          <div className="w-full md:w-1/2">
-            <div className="inline-block px-3 py-1 mb-6 border border-yellow-600/30 rounded text-yellow-500 text-xs font-bold tracking-widest uppercase bg-yellow-900/10">
-              Département Culturel
-            </div>
-            <h2 className="text-4xl md:text-6xl font-serif text-white mb-8">
-              Héritage <span className="text-yellow-500 italic">Vodun</span>
-            </h2>
-            <p className="text-gray-300 text-lg mb-8 leading-relaxed border-l-2 border-yellow-500/30 pl-6">
-              Au-delà de la technologie, Nova ENT s&apos;engage pour la
-              valorisation du patrimoine. Sous l&apos;égérie{" "}
-              <strong>HÉRITAGE VODUN</strong>, nous digitalisons la tradition
-              pour la rendre éternelle.
-            </p>
-            <ul className="space-y-4 mb-10">
-              {[
-                "Promotion d'événements culturels internationaux",
-                "Digitalisation d'archives historiques & Musées virtuels",
-                "Expériences immersives (VR/AR) & E-Tourisme",
-              ].map((item, i) => (
-                <li
-                  key={i}
-                  className="flex items-start gap-3 text-yellow-100/80"
-                >
-                  <CheckCircle2
-                    size={20}
-                    className="text-yellow-500 flex-shrink-0 mt-1"
-                  />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-            <button className="px-8 py-3 bg-yellow-600 hover:bg-yellow-500 text-black font-bold rounded-lg transition-all shadow-[0_0_20px_rgba(202,138,4,0.3)]">
-              Explorer le projet culturel
-            </button>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 grid-rows-2 gap-6 h-auto md:h-[600px]">
+          {/* Grande carte gauche */}
+          <BentoCard
+            className="md:col-span-1 md:row-span-2 bg-gradient-to-b from-blue-900/10 to-transparent"
+            title="Architecture Logicielle"
+            desc="Conception de systèmes distribués, micro-services et infrastructures cloud-native robustes."
+            icon={Server}
+          />
 
-          <div className="w-full md:w-1/2 relative min-h-[500px] bg-yellow-900/5 rounded-2xl border border-yellow-600/20 overflow-hidden flex items-center justify-center group">
-            {/* Abstract Visual Representation */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-yellow-900/40 to-black mix-blend-overlay"></div>
-            <div className="relative z-10 p-10 bg-black/40 backdrop-blur-md border border-yellow-500/30 rounded-xl text-center max-w-xs transform group-hover:scale-105 transition-transform duration-500">
-              <Globe className="w-16 h-16 text-yellow-500 mx-auto mb-4 opacity-80" />
-              {/* CORRECTION 4 : Remplacement des guillemets doubles par &quot; */}
-              <p className="text-yellow-100 font-serif text-2xl italic">
-                &quot;La technologie au service de la tradition&quot;
+          {/* Carte haut milieu */}
+          <BentoCard
+            className="md:col-span-1"
+            title="Développement Web"
+            desc="Next.js 15, React, TypeScript. Performance absolue."
+            icon={Globe}
+          />
+
+          {/* Carte haut droite */}
+          <BentoCard
+            className="md:col-span-1"
+            title="Design UI/UX"
+            desc="Interfaces fluides centrées sur l'humain."
+            icon={Layout}
+          />
+
+          {/* Large carte bas */}
+          <BentoCard
+            className="md:col-span-2"
+            title="Engineering & Data"
+            desc="Optimisation de bases de données complexes et algorithmes performants."
+            icon={Database}
+          />
+        </div>
+      </section>
+
+      {/* SECTION HERITAGE VODUN */}
+      <section id="heritage-vodun" className="py-32 relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-[#1a1200] to-black" />
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="flex flex-col md:flex-row gap-12 items-center rounded-3xl bg-white/5 border border-yellow-500/20 p-8 md:p-16 backdrop-blur-md overflow-hidden">
+            {/* Background Texture for Card */}
+            <div className="absolute top-0 right-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 mix-blend-overlay"></div>
+
+            <div className="w-full md:w-1/2 space-y-8">
+              <div className="inline-block px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded text-yellow-500 text-xs font-bold tracking-[0.2em] uppercase">
+                Division Culturelle
+              </div>
+              <h2 className="text-4xl md:text-6xl font-serif text-white">
+                L&apos;Esprit{" "}
+                <span className="text-yellow-500 italic">Vodun</span>
+              </h2>
+              <p className="text-gray-300 text-lg leading-relaxed">
+                Nova ENT ne se contente pas du code. Nous préservons
+                l&apos;histoire. À travers notre filiale{" "}
+                <strong>Héritage Vodun</strong>, nous utilisons la technologie
+                de pointe pour archiver, diffuser et magnifier le patrimoine
+                culturel immatériel.
               </p>
+
+              <div className="grid grid-cols-2 gap-4 pt-4">
+                <div className="flex items-center gap-3 text-yellow-100/70">
+                  <ShieldCheck size={20} className="text-yellow-500" />{" "}
+                  Numérisation 3D
+                </div>
+                <div className="flex items-center gap-3 text-yellow-100/70">
+                  <ShieldCheck size={20} className="text-yellow-500" />{" "}
+                  Événementiel
+                </div>
+              </div>
+
+              <button className="mt-8 px-8 py-4 bg-gradient-to-r from-yellow-600 to-yellow-700 text-black font-bold rounded-lg shadow-lg shadow-yellow-900/40 hover:scale-105 transition-transform">
+                Explorer l&apos;Héritage
+              </button>
+            </div>
+
+            <div className="w-full md:w-1/2 relative h-[400px] flex items-center justify-center">
+              <div className="absolute inset-0 bg-gradient-to-tr from-yellow-500/20 to-transparent rounded-2xl blur-3xl"></div>
+              <div className="relative z-10 bg-black/80 p-8 rounded-2xl border border-yellow-500/30 text-center max-w-sm">
+                <Box className="w-16 h-16 text-yellow-500 mx-auto mb-6" />
+                <h3 className="text-2xl font-serif text-white mb-2">
+                  Musée Virtuel
+                </h3>
+                <p className="text-gray-400 text-sm">
+                  Prochainement : Une expérience immersive en réalité virtuelle
+                  au cœur des temples sacrés.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="bg-black border-t border-white/5 pt-20 pb-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-          <div className="col-span-1 md:col-span-2">
-            <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600 mb-6 block">
-              NOVA<span className="text-white">ENT</span>
-            </span>
-            <p className="text-gray-500 max-w-sm leading-relaxed">
-              Votre partenaire expert pour la transformation digitale et la
-              valorisation culturelle. Aytré, Nouvelle-Aquitaine &
-              International.
+      {/* FOOTER PREMIUM */}
+      <footer className="border-t border-white/10 bg-black py-20 px-6">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+          <div className="col-span-1 md:col-span-2 space-y-6">
+            <h2 className="text-3xl font-bold tracking-tighter text-white">
+              NOVA<span className="text-blue-600">ENT</span>.
+            </h2>
+            <p className="text-gray-500 max-w-sm">
+              Définir les standards de l&apos;ingénierie numérique en Afrique et
+              dans le monde.
             </p>
           </div>
-          <div>
-            <h4 className="text-white font-semibold mb-6">Expertise</h4>
-            <ul className="space-y-3 text-gray-500 text-sm">
-              <li className="hover:text-blue-400 cursor-pointer transition-colors">
-                Dév Web & Mobile
+          <div className="space-y-4">
+            <h4 className="text-white font-semibold">Services</h4>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li className="hover:text-blue-400 transition-colors cursor-pointer">
+                Développement
               </li>
-              <li className="hover:text-blue-400 cursor-pointer transition-colors">
-                Data Engineering
+              <li className="hover:text-blue-400 transition-colors cursor-pointer">
+                Design System
               </li>
-              <li className="hover:text-blue-400 cursor-pointer transition-colors">
-                UI/UX Design
-              </li>
-              <li className="hover:text-blue-400 cursor-pointer transition-colors">
-                Consulting SEO
+              <li className="hover:text-blue-400 transition-colors cursor-pointer">
+                Cloud Architecture
               </li>
             </ul>
           </div>
-          <div>
-            <h4 className="text-white font-semibold mb-6">Légal</h4>
-            <ul className="space-y-3 text-gray-500 text-sm">
-              <li className="hover:text-white cursor-pointer transition-colors">
-                Mentions Légales
+          <div className="space-y-4">
+            <h4 className="text-white font-semibold">Société</h4>
+            <ul className="space-y-2 text-sm text-gray-500">
+              <li className="hover:text-white transition-colors cursor-pointer">
+                À propos
               </li>
-              <li className="hover:text-white cursor-pointer transition-colors">
-                Confidentialité
+              <li className="hover:text-white transition-colors cursor-pointer">
+                Carrières
               </li>
-              <li className="hover:text-white cursor-pointer transition-colors">
-                CGV
+              <li className="hover:text-white transition-colors cursor-pointer">
+                Contact
               </li>
             </ul>
-          </div>
-        </div>
-        <div className="max-w-7xl mx-auto px-4 border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-600 text-sm">
-          <p>© {new Date().getFullYear()} Nova ENT. Tous droits réservés.</p>
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-green-500"></span>
-            <span>Systems Operational</span>
           </div>
         </div>
       </footer>
