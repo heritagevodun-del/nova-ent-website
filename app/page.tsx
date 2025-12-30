@@ -5,13 +5,15 @@ import { motion } from "framer-motion";
 import { Inter } from "next/font/google";
 import {
   Database,
-  Layout,
   Server,
   ArrowRight,
   ShieldCheck,
   Sparkles,
   Box,
   Cpu,
+  Code,
+  Landmark,
+  Palette,
 } from "lucide-react";
 
 // Police Inter configurée pour une lisibilité maximale
@@ -180,7 +182,7 @@ export default function Home() {
           >
             <Cpu size={16} className="animate-pulse" />
             <span className="uppercase tracking-wider">
-              Ingénierie Haute Performance
+              Ingénierie & Culture
             </span>
           </motion.div>
 
@@ -202,9 +204,9 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
             className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed font-medium"
           >
-            Nous ne construisons pas des sites. Nous forgeons des écosystèmes
-            numériques critiques capables de redéfinir votre industrie. La
-            puissance sans compromis.
+            Édition logicielle, Systèmes complexes et Héritage culturel. Nous
+            forgeons les écosystèmes numériques qui redéfinissent votre
+            industrie.
           </motion.p>
 
           <motion.div
@@ -216,7 +218,7 @@ export default function Home() {
             <button className="group relative px-8 py-4 bg-cyan-400 text-black font-extrabold text-lg rounded-lg overflow-hidden shadow-[0_0_30px_rgba(0,247,255,0.3)] hover:shadow-[0_0_50px_rgba(0,247,255,0.5)] transition-shadow">
               <div className="absolute inset-0 w-0 bg-white transition-all duration-[400ms] ease-out group-hover:w-full"></div>
               <span className="relative z-10 flex items-center gap-2">
-                Explorer les Capacités{" "}
+                Nos Services{" "}
                 <ArrowRight className="group-hover:translate-x-1 transition-transform" />
               </span>
             </button>
@@ -226,7 +228,7 @@ export default function Home() {
           </motion.div>
         </div>
 
-        {/* Scroll Indicator Cyberpunk */}
+        {/* Scroll Indicator */}
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
           <span className="text-xs text-cyan-500 font-bold uppercase tracking-[0.3em] animate-pulse">
             Scroll
@@ -237,7 +239,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION EXPERTISE - REWRITE PREMIUM */}
+      {/* SECTION EXPERTISE - MAPPÉE SUR TES VRAIS SERVICES */}
       <section id="expertise" className="py-40 px-4 relative overflow-hidden">
         {/* Background noise light */}
         <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px]" />
@@ -251,93 +253,124 @@ export default function Home() {
               </span>
             </h2>
             <p className="text-gray-300 text-xl leading-relaxed font-medium">
-              Une maîtrise absolue des couches invisibles qui propulsent les
-              leaders du marché. Pas de stack technique à étaler, juste des
-              résultats bruts.
+              Une suite complète de compétences pour transformer n&apos;importe
+              quel défi en solution logicielle souveraine.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 grid-rows-2 gap-8 h-auto md:h-[700px]">
-            {/* Grande carte gauche - Infrastructure */}
+          <div className="grid grid-cols-1 md:grid-cols-3 grid-rows-2 gap-8 h-auto">
+            {/* 1. ARCHITECTURE & EDITION LOGICIELLE */}
             <BentoCard
               className="md:col-span-1 md:row-span-2 bg-gradient-to-b from-[#1a1a2e] to-transparent border-blue-900/30"
-              title="Infrastructure Critique"
-              desc="Conception de systèmes névralgiques capables d'encaisser une charge planétaire sans faillir. Résilience militaire."
+              title="Architecture & Édition Logicielle"
+              desc="Conception de systèmes névralgiques et création de logiciels sur-mesure. Nous bâtissons les fondations de votre souveraineté numérique."
               icon={Server}
             />
 
-            {/* Carte haut milieu - Performance */}
+            {/* 2. DÉVELOPPEMENT WEB (Vélocité) */}
             <BentoCard
               className="md:col-span-1"
-              title="Vélocité Pure"
-              desc="Des interfaces instantanées. Nous supprimons la friction entre l'intention de l'utilisateur et l'action."
-              icon={Sparkles}
+              title="Développement Web & Mobile"
+              desc="Des interfaces ultra-rapides. Développement de sites et d'applications qui suppriment la friction entre l'intention et l'action."
+              icon={Code}
             />
 
-            {/* Carte haut droite - Design */}
+            {/* 3. GRAPHISME & DESIGN */}
             <BentoCard
               className="md:col-span-1"
-              title="Expérience Immersive"
-              desc="Quand l'esthétique radicale rencontre la fonction pure. Un design qui marque les esprits."
-              icon={Layout}
+              title="Design & Esthétique"
+              desc="Graphisme avancé et Web Design. Quand l'identité visuelle rencontre l'ergonomie pour une expérience utilisateur immersive."
+              icon={Palette}
             />
 
-            {/* Large carte bas - Data */}
+            {/* 4. BASE DE DONNÉES (Admin BDD) */}
             <BentoCard
               className="md:col-span-2 bg-gradient-to-tr from-[#111] to-[#1a1a2e]"
-              title="Intelligence des Données"
-              desc="Transformer le chaos informationnel en avantage stratégique. Algorithmes prédictifs et traitement massif en temps réel."
+              title="Administration de Données"
+              desc="Architecture et sécurisation de bases de données. Transformer le chaos informationnel en avantage stratégique et sécurisé."
               icon={Database}
             />
           </div>
         </div>
       </section>
 
-      {/* SECTION HERITAGE VODUN - MYSTIQUE ET PUISSANTE */}
+      {/* SECTION HERITAGE VODUN - UPGRADE MAJESTUEUX */}
       <section id="heritage-vodun" className="py-40 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0b] via-[#1a1200] to-[#0a0a0b]" />
-        {/* Lumière dorée mystique */}
-        <div className="absolute bottom-0 left-1/4 w-[600px] h-[600px] bg-yellow-600/10 rounded-full blur-[150px]" />
+        {/* Changement d'ambiance : Noir profond vers Or Antique */}
+        <div className="absolute inset-0 bg-[#050506]" />
+        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-yellow-600/50 to-transparent"></div>
+
+        {/* Halo Doré */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-yellow-600/5 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="flex flex-col md:flex-row gap-16 items-center rounded-[3rem] bg-white/5 border border-yellow-500/20 p-10 md:p-20 backdrop-blur-xl shadow-[0_0_50px_rgba(255,200,0,0.1)] overflow-hidden group">
-            {/* Background Texture subtle */}
-            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
+          <div className="text-center mb-16 space-y-4">
+            <span className="inline-block px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded text-yellow-500 text-xs font-bold tracking-[0.3em] uppercase">
+              Département Culturel
+            </span>
+            <h2 className="text-5xl md:text-8xl font-serif text-white tracking-tight">
+              HÉRITAGE{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-b from-yellow-300 to-yellow-700">
+                VODUN
+              </span>
+            </h2>
+          </div>
 
-            <div className="w-full md:w-1/2 space-y-10 relative z-10">
-              <div className="inline-flex items-center gap-3 px-4 py-2 bg-yellow-500/10 border border-yellow-500/30 rounded-full text-yellow-400 text-sm font-bold tracking-[0.2em] uppercase shadow-[0_0_20px_rgba(255,200,0,0.2)]">
-                <ShieldCheck size={16} /> Division Culturelle
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            {/* Carte Gauche : Le Concept */}
+            <div className="p-10 rounded-[2rem] bg-gradient-to-br from-[#12100a] to-black border border-yellow-900/30 relative overflow-hidden group hover:border-yellow-600/40 transition-colors duration-500">
+              <div className="absolute top-0 right-0 p-10 opacity-10">
+                <Landmark size={120} className="text-yellow-500" />
               </div>
-              <h2 className="text-5xl md:text-7xl font-serif text-white leading-none">
-                L&apos;Esprit{" "}
-                <span className="text-yellow-500 italic">Vodun.</span>
-                <br />
-                Magnifié.
-              </h2>
-              <p className="text-gray-300 text-xl leading-relaxed font-medium">
-                Notre technologie ne sert pas qu&apos;à l&apos;industrie. Elle
-                préserve l&apos;âme. Via <strong>Héritage Vodun</strong>, nous
-                déployons nos capacités pour archiver le patrimoine immatériel
-                dans l&apos;éternité numérique.
+              <h3 className="text-3xl font-serif text-white mb-6">
+                Le Centre Culturel
+              </h3>
+              <p className="text-gray-400 leading-relaxed mb-8 text-lg">
+                Plus qu&apos;un projet digital, <strong>Heritage Vodun</strong>{" "}
+                est un sanctuaire. Nous offrons des prestations de services
+                culturels complètes pour la valorisation, la préservation et la
+                diffusion de l&apos;histoire.
               </p>
-
-              <button className="mt-8 px-10 py-5 bg-gradient-to-r from-yellow-600 to-yellow-700 text-black font-extrabold text-lg rounded-lg shadow-[0_0_30px_rgba(255,200,0,0.4)] hover:scale-105 transition-transform hover:shadow-[0_0_50px_rgba(255,200,0,0.6)]">
-                Pénétrer le Sanctuaire Digital
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-center gap-3 text-yellow-100/70">
+                  <ShieldCheck size={18} className="text-yellow-600" /> Gestion
+                  d&apos;événements culturels
+                </li>
+                <li className="flex items-center gap-3 text-yellow-100/70">
+                  <ShieldCheck size={18} className="text-yellow-600" />{" "}
+                  Médiation historique
+                </li>
+              </ul>
+              <button className="w-full py-4 bg-white/5 border border-yellow-500/20 text-yellow-500 font-bold rounded-xl hover:bg-yellow-500 hover:text-black transition-all">
+                Découvrir le Centre
               </button>
             </div>
 
-            <div className="w-full md:w-1/2 relative h-[500px] flex items-center justify-center perspective-1000">
-              {/* Effet 3D Holographique */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-yellow-500/20 to-transparent rounded-3xl blur-3xl animate-pulse-slow"></div>
-              <div className="relative z-10 bg-black/60 p-12 rounded-3xl border border-yellow-500/40 text-center max-w-md transform transition-transform duration-700 group-hover:rotate-y-6 group-hover:scale-105 backdrop-blur-md shadow-2xl">
-                <Box className="w-20 h-20 text-yellow-400 mx-auto mb-8 animate-float" />
-                <h3 className="text-3xl font-serif text-white mb-4">
-                  Le Musée Virtuel
+            {/* Carte Droite : L'Innovation */}
+            <div className="p-10 rounded-[2rem] bg-gradient-to-bl from-[#0f1014] to-black border border-cyan-900/30 relative overflow-hidden group">
+              {/* Fusion des couleurs : Or et Cyan */}
+              <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/5 to-cyan-500/5 opacity-50"></div>
+
+              <div className="relative z-10 text-right">
+                <div className="inline-flex items-center justify-end gap-2 text-cyan-400 mb-4 font-mono text-sm">
+                  <Sparkles size={14} /> INNOVATION HYBRIDE
+                </div>
+                <h3 className="text-3xl font-serif text-white mb-6">
+                  Le Sanctuaire Numérique
                 </h3>
-                <p className="text-yellow-100/80 text-lg">
-                  Une immersion en réalité étendue au cœur des temples sacrés,
-                  défiant l&apos;espace et le temps.
+                <p className="text-gray-400 leading-relaxed mb-8 text-lg">
+                  Quand l&apos;ingénierie de Nova ENT rencontre le sacré. Nous
+                  numérisons les artefacts et créons des musées virtuels pour
+                  que la mémoire traverse le temps.
                 </p>
+
+                <div className="relative h-40 bg-black/50 rounded-xl border border-white/10 flex items-center justify-center overflow-hidden">
+                  <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20"></div>
+                  <Box className="w-16 h-16 text-white/20 animate-float" />
+                  <span className="absolute bottom-4 text-xs text-gray-500 uppercase tracking-widest">
+                    Simulation 3D en cours...
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -356,23 +389,23 @@ export default function Home() {
               </h2>
             </div>
             <p className="text-gray-400 max-w-md text-lg font-medium leading-relaxed">
-              Définir les nouveaux standards de l&apos;ingénierie numérique.
-              Puissance, précision, pérennité.
+              Définir les nouveaux standards de l&apos;ingénierie numérique et
+              de la préservation culturelle.
             </p>
           </div>
           <div className="space-y-6">
             <h4 className="text-white font-bold uppercase tracking-wider">
-              Capacités
+              Expertise
             </h4>
             <ul className="space-y-4 text-gray-500 font-medium">
               <li className="hover:text-cyan-400 transition-colors cursor-pointer">
-                Systèmes Critiques
+                Architecture Logicielle
               </li>
               <li className="hover:text-cyan-400 transition-colors cursor-pointer">
-                Interfaces Avancées
+                Web & Design
               </li>
-              <li className="hover:text-cyan-400 transition-colors cursor-pointer">
-                Architecture Cloud
+              <li className="hover:text-yellow-500 transition-colors cursor-pointer">
+                Héritage Vodun
               </li>
             </ul>
           </div>
@@ -388,17 +421,14 @@ export default function Home() {
                 Carrières
               </li>
               <li className="hover:text-white transition-colors cursor-pointer">
-                Ouidah, Bénin
+                Cotonou, Bénin
               </li>
             </ul>
           </div>
         </div>
         <div className="max-w-7xl mx-auto mt-20 pt-8 border-t border-white/5 flex justify-between items-center text-gray-600 text-sm font-medium">
-          <p>
-            © {new Date().getFullYear()} NOVA ENT. Tous droits réservés.
-            Excellence en ingénierie.
-          </p>
-          <p>Fabriqué par N.E pour vous</p>
+          <p>© {new Date().getFullYear()} NOVA ENT. Tous droits réservés.</p>
+          <p>Fabriqué par Nova ENT pour vous</p>
         </div>
       </footer>
     </div>
