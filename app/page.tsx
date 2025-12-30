@@ -546,14 +546,13 @@ export default function Home() {
             </a>
 
             <a
-              href={HERITAGE_URL}
-              target="_blank"
+              href="/musee-virtuel"
               className="p-8 md:p-12 rounded-3xl bg-gradient-to-br from-[#0c1220] to-black border border-cyan-900/30 hover:border-cyan-500/30 transition-colors group cursor-pointer block"
             >
               <div className="text-cyan-500 mb-6">
                 <History size={40} />
               </div>
-              {/* CORRECTION 7 : L'Innovation -> L&apos;Innovation */}
+              {/* CORRECTION : L'Innovation -> L&apos;Innovation */}
               <div className="text-cyan-600 font-bold tracking-widest text-xs uppercase mb-2">
                 L&apos;Innovation
               </div>
