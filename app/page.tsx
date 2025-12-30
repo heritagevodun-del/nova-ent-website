@@ -2,13 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Inter } from "next/font/google";
+import { Inter, Cinzel } from "next/font/google";
 import {
   Database,
   Server,
   ArrowRight,
-  ShieldCheck,
-  Sparkles,
   Box,
   Cpu,
   Code,
@@ -20,18 +18,21 @@ import {
   Menu,
   X,
   ExternalLink,
+  History,
+  Landmark,
 } from "lucide-react";
 
+// Polices
 const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
 });
+const cinzel = Cinzel({ subsets: ["latin"], weight: ["400", "700"] });
 
 // --- CONFIGURATION ---
 const CONTACT_EMAIL = "joindre.novaent@gmail.com";
 const WHATSAPP_NUMBER = "22969783365";
-const MAP_LINK =
-  "https://www.google.com/maps/search/?api=1&query=Ouidah,+Benin";
+const MAP_LINK = "https://www.google.com/maps/search/?api=1&query=Ouidah+Benin";
 
 // --- LOGO N.E ---
 const LogoNE = () => (
@@ -94,7 +95,9 @@ const Navbar = () => {
   const scrollTo = (id: string) => {
     setMobileMenuOpen(false);
     const element = document.getElementById(id);
-    if (element) element.scrollIntoView({ behavior: "smooth" });
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
@@ -122,9 +125,8 @@ const Navbar = () => {
           </span>
         </div>
 
-        {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-10">
-          {["Expertise", "Héritage Vodun", "Contact"].map((item) => (
+          {["Expertise", "Héritage Vodun"].map((item) => (
             <button
               key={item}
               onClick={() => scrollTo(item.toLowerCase().replace(" ", "-"))}
@@ -135,13 +137,16 @@ const Navbar = () => {
           ))}
           <button
             onClick={() => scrollTo("contact")}
-            className="px-6 py-2 bg-cyan-500/10 border border-cyan-500/50 text-cyan-400 hover:bg-cyan-400 hover:text-black font-bold rounded-lg transition-all text-sm flex items-center gap-2"
+            className="px-6 py-2 bg-cyan-500/10 border border-cyan-500/50 text-cyan-400 hover:bg-cyan-400 hover:text-black font-bold rounded-lg transition-all text-sm flex items-center gap-2 group"
           >
-            Initialiser <ArrowRight size={16} />
+            Initialiser{" "}
+            <ArrowRight
+              size={16}
+              className="group-hover:translate-x-1 transition-transform"
+            />
           </button>
         </div>
 
-        {/* Mobile Menu Toggle */}
         <div className="md:hidden z-50">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -152,14 +157,13 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="absolute top-0 left-0 w-full h-screen bg-[#0a0a0b] flex flex-col items-center justify-center gap-8 md:hidden z-40"
+          className="absolute top-0 left-0 w-full h-screen bg-[#0a0a0b] flex flex-col items-center justify-center gap-10 md:hidden z-40"
         >
-          {["Expertise", "Héritage Vodun", "Contact"].map((item) => (
+          {["Expertise", "Héritage Vodun"].map((item) => (
             <button
               key={item}
               onClick={() => scrollTo(item.toLowerCase().replace(" ", "-"))}
@@ -168,6 +172,12 @@ const Navbar = () => {
               {item}
             </button>
           ))}
+          <button
+            onClick={() => scrollTo("contact")}
+            className="text-2xl font-bold text-cyan-400 uppercase tracking-widest"
+          >
+            Initialiser le projet
+          </button>
         </motion.div>
       )}
     </nav>
@@ -245,7 +255,6 @@ const ContactSection = () => {
     <section id="contact" className="py-24 px-4 relative">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
-          {/* Info Side */}
           <div className="space-y-10">
             <div>
               <span className="text-cyan-500 font-mono text-sm tracking-widest uppercase">
@@ -294,26 +303,9 @@ const ContactSection = () => {
                   <p className="text-gray-400 text-sm">{CONTACT_EMAIL}</p>
                 </div>
               </a>
-
-              <a
-                href={`https://wa.me/${WHATSAPP_NUMBER}`}
-                target="_blank"
-                className="flex items-center gap-6 p-4 rounded-2xl bg-[#25D366]/5 border border-[#25D366]/10 hover:border-[#25D366]/40 transition-all group cursor-pointer"
-              >
-                <div className="w-12 h-12 rounded-full bg-[#25D366]/10 flex items-center justify-center text-[#25D366] group-hover:scale-110 transition-transform">
-                  <MessageCircle size={20} />
-                </div>
-                <div>
-                  <h4 className="text-white font-bold">Ligne Directe</h4>
-                  <p className="text-gray-400 text-sm">
-                    +229 69 78 33 65 (WhatsApp)
-                  </p>
-                </div>
-              </a>
             </div>
           </div>
 
-          {/* Form Side */}
           <div className="bg-[#121214] p-8 md:p-10 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 blur-[50px] rounded-full"></div>
             <h3 className="text-2xl font-bold text-white mb-8">
@@ -369,11 +361,6 @@ const ContactSection = () => {
               >
                 <Send size={18} /> Transmettre la Demande
               </button>
-
-              <p className="text-xs text-center text-gray-600 mt-4">
-                En cliquant, votre client mail s&apos;ouvrira avec le message
-                pré-rempli.
-              </p>
             </form>
           </div>
         </div>
@@ -390,10 +377,9 @@ export default function Home() {
       <Navbar />
       <FloatingWhatsApp />
 
-      {/* HERO SECTION - RESPONSIVE FIX */}
+      {/* HERO SECTION */}
       <section className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden px-4 pt-20 md:pt-0">
         <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10 z-0 pointer-events-none"></div>
-        {/* Cercles lumineux ajustés pour mobile */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] md:w-[800px] h-[300px] md:h-[500px] bg-blue-800/20 rounded-[100%] blur-[80px] md:blur-[140px] animate-pulse-slow" />
 
         <div className="relative z-10 text-center max-w-5xl mx-auto space-y-6 md:space-y-10">
@@ -415,9 +401,9 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-5xl sm:text-7xl md:text-9xl font-extrabold tracking-tighter leading-none text-white"
           >
-            L&apos;Architecture de
+            L&quotArchitecture de
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-blue-500 pb-2 md:pb-4">
-              l&apos;Invisible.
+              l&quotInvisible.
             </span>
           </motion.h1>
 
@@ -438,26 +424,34 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center pt-4 md:pt-8 px-4"
           >
-            <a
-              href="#expertise"
-              className="group relative px-8 py-4 bg-cyan-400 text-black font-extrabold text-lg rounded-lg overflow-hidden flex items-center justify-center gap-2"
+            <button
+              onClick={() =>
+                document
+                  .getElementById("expertise")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+              className="group relative px-8 py-4 bg-cyan-400 text-black font-extrabold text-lg rounded-lg overflow-hidden flex items-center justify-center gap-2 transition-all hover:shadow-[0_0_30px_rgba(0,247,255,0.4)]"
             >
               <span className="relative z-10 flex items-center gap-2">
-                Nos Services{" "}
+                Explorer Nos Services{" "}
                 <ArrowRight className="group-hover:translate-x-1 transition-transform" />
               </span>
-            </a>
-            <a
-              href="#heritage-vodun"
+            </button>
+            <button
+              onClick={() =>
+                document
+                  .getElementById("heritage-vodun")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
               className="px-8 py-4 bg-transparent border-2 border-white/20 text-white font-bold text-lg rounded-lg hover:bg-white/5 transition-all text-center"
             >
               Le Studio
-            </a>
+            </button>
           </motion.div>
         </div>
       </section>
 
-      {/* SECTION EXPERTISE - RESPONSIVE GRID */}
+      {/* SECTION EXPERTISE */}
       <section id="expertise" className="py-20 md:py-40 px-4 md:px-6 relative">
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="mb-16 md:mb-24 md:w-2/3">
@@ -468,7 +462,7 @@ export default function Home() {
               </span>
             </h2>
             <p className="text-gray-300 text-lg md:text-xl leading-relaxed font-medium">
-              Une suite complète de compétences pour transformer n&apos;importe
+              Une suite complète de compétences pour transformer n&quot;importe
               quel défi en solution logicielle souveraine.
             </p>
           </div>
@@ -502,73 +496,121 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION HERITAGE VODUN - RESPONSIVE */}
+      {/* SECTION HERITAGE VODUN - STORYTELLING IMMERSIF */}
       <section
         id="heritage-vodun"
-        className="py-20 md:py-40 relative overflow-hidden"
+        className={`py-20 md:py-40 relative overflow-hidden bg-black ${cinzel.className}`}
       >
-        <div className="absolute inset-0 bg-[#050506]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[800px] h-[300px] md:h-[800px] bg-yellow-600/5 rounded-full blur-[80px] md:blur-[120px]" />
+        {/* Fond texturé profond */}
+        <div className="absolute inset-0 bg-[#020202]" />
+        <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/black-scales.png')] mix-blend-overlay"></div>
+
+        {/* Halo Doré Central */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] md:w-[1000px] h-[500px] md:h-[1000px] bg-gradient-to-b from-amber-600/10 to-transparent rounded-full blur-[100px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
-          <div className="text-center mb-12 md:mb-16 space-y-4">
-            <span className="inline-block px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded text-yellow-500 text-xs font-bold tracking-[0.3em] uppercase">
-              Département Culturel
-            </span>
-            <h2 className="text-4xl md:text-8xl font-serif text-white tracking-tight">
-              HÉRITAGE{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-b from-yellow-300 to-yellow-700">
+          <div className="text-center mb-20 space-y-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-3 text-amber-500 mb-4"
+            >
+              <div className="h-[1px] w-12 bg-amber-500/50"></div>
+              <span className="uppercase tracking-[0.4em] text-xs font-bold">
+                Ouidah, Bénin
+              </span>
+              <div className="h-[1px] w-12 bg-amber-500/50"></div>
+            </motion.div>
+
+            <motion.h2
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="text-5xl md:text-8xl font-serif text-white tracking-tight leading-none"
+            >
+              HÉRITAGE <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-b from-amber-200 via-amber-500 to-amber-900">
                 VODUN
               </span>
-            </h2>
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="text-amber-100/60 max-w-2xl mx-auto text-lg md:text-xl italic font-light leading-relaxed font-sans"
+            >
+              &quot;Nous ne sommes pas seulement des architectes du code, nous
+              sommes les gardiens du temple. Nova ENT fusionne la tradition
+              millénaire et l&apos;éternité numérique.&quot;
+            </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-            <div className="p-8 md:p-10 rounded-[2rem] bg-gradient-to-br from-[#12100a] to-black border border-yellow-900/30">
-              <h3 className="text-2xl md:text-3xl font-serif text-white mb-6">
-                Le Centre Culturel
-              </h3>
-              <p className="text-gray-400 mb-8">
-                Une prestation complète pour la valorisation de l&apos;histoire.
-                Événements, médiation et préservation.
-              </p>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3 text-yellow-100/70 text-sm">
-                  <ShieldCheck size={16} className="text-yellow-600" /> Gestion
-                  d&apos;événements
-                </li>
-                <li className="flex items-center gap-3 text-yellow-100/70 text-sm">
-                  <ShieldCheck size={16} className="text-yellow-600" />{" "}
-                  Médiation historique
-                </li>
-              </ul>
-              <button className="w-full py-3 bg-white/5 border border-yellow-500/20 text-yellow-500 font-bold rounded-xl hover:bg-yellow-500 hover:text-black transition-all">
-                Découvrir le Centre
-              </button>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <motion.div
+              whileHover={{ y: -10 }}
+              className="group relative h-[500px] rounded-[2rem] overflow-hidden border border-amber-900/30 bg-[#0a0500]"
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-amber-900/20 opacity-60"></div>
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')] opacity-10 mix-blend-overlay"></div>
 
-            <div className="p-8 md:p-10 rounded-[2rem] bg-gradient-to-bl from-[#0f1014] to-black border border-cyan-900/30 relative overflow-hidden">
-              <div className="relative z-10 text-right">
-                <div className="inline-flex items-center justify-end gap-2 text-cyan-400 mb-4 font-mono text-sm">
-                  <Sparkles size={14} /> INNOVATION HYBRIDE
-                </div>
-                <h3 className="text-2xl md:text-3xl font-serif text-white mb-6">
-                  Le Sanctuaire Numérique
-                </h3>
-                <p className="text-gray-400 mb-8">
-                  Numérisation d&apos;artefacts et musées virtuels. La mémoire
-                  traverse le temps.
-                </p>
-                <div className="relative h-32 md:h-40 bg-black/50 rounded-xl border border-white/10 flex items-center justify-center">
-                  <Box className="w-12 h-12 text-white/20 animate-bounce" />
-                </div>
+              <div className="absolute top-8 right-8 p-4 bg-amber-950/30 rounded-full border border-amber-500/20 backdrop-blur-md">
+                <Landmark className="text-amber-500" size={32} />
               </div>
-            </div>
+
+              <div className="absolute bottom-0 left-0 p-10 w-full bg-gradient-to-t from-black to-transparent pt-32">
+                <span className="text-amber-500 text-xs font-bold tracking-[0.3em] uppercase mb-3 block">
+                  Le Pilier Physique
+                </span>
+                <h3 className="text-3xl md:text-4xl text-white mb-4 font-serif">
+                  Le Centre Culturel
+                </h3>
+                <p className="text-gray-400 font-sans text-sm md:text-base mb-6 leading-relaxed">
+                  Un lieu de rassemblement physique à Ouidah. Nous organisons
+                  des conférences, des rituels de médiation et des expositions
+                  pour que l&apos;histoire se vive en chair et en os.
+                </p>
+                <button className="flex items-center gap-3 text-amber-400 font-bold uppercase tracking-widest text-xs hover:text-white transition-colors">
+                  Voir la Programmation <ArrowRight size={14} />
+                </button>
+              </div>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ y: -10 }}
+              className="group relative h-[500px] rounded-[2rem] overflow-hidden border border-cyan-900/30 bg-[#00050a]"
+            >
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-cyan-900/20 opacity-60"></div>
+              <div className="absolute top-0 right-0 w-full h-full bg-[url('/grid-pattern.svg')] opacity-20"></div>
+
+              <div className="absolute top-8 right-8 p-4 bg-cyan-950/30 rounded-full border border-cyan-500/20 backdrop-blur-md">
+                <History className="text-cyan-400" size={32} />
+              </div>
+
+              <div className="absolute bottom-0 left-0 p-10 w-full bg-gradient-to-t from-black to-transparent pt-32">
+                <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-3 block">
+                  Le Pilier Numérique
+                </span>
+                <h3 className="text-3xl md:text-4xl text-white mb-4 font-serif">
+                  Le Sanctuaire Digital
+                </h3>
+                <p className="text-gray-400 font-sans text-sm md:text-base mb-6 leading-relaxed">
+                  Numérisation 3D d&apos;artefacts sacrés et création de musées
+                  virtuels. Nous protégeons les reliques contre l&apos;érosion
+                  du temps en les encodant dans la blockchain.
+                </p>
+                <button className="flex items-center gap-3 text-cyan-400 font-bold uppercase tracking-widest text-xs hover:text-white transition-colors">
+                  Entrer dans le Métavers <Box size={14} />
+                </button>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* SECTION CONTACT ET FOOTER */}
       <ContactSection />
 
       <footer className="border-t border-white/5 bg-black py-12 px-6 text-center md:text-left">

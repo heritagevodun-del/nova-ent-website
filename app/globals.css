@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* --- AJOUT CRUCIAL POUR LA NAVIGATION --- */
+html {
+  scroll-behavior: smooth; /* Active le défilement doux */
+  scroll-padding-top: 100px; /* Crée une zone tampon pour que le menu ne cache pas les titres */
+}
+
 :root {
   /* NOUVEAU FOND : Gris Anthracite très profond au lieu du noir pur. 
      Cela crée de la profondeur et permet aux ombres d'exister. */
@@ -22,7 +28,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Scrollbar Cyberpunk */
+/* Scrollbar Cyberpunk (Ton design original conservé) */
 ::-webkit-scrollbar {
   width: 6px;
 }
