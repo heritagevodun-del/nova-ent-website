@@ -12,17 +12,28 @@ import {
   Box,
   Cpu,
   Code,
-  Landmark,
   Palette,
+  MapPin,
+  Mail,
+  MessageCircle,
+  Send,
+  Menu,
+  X,
+  ExternalLink,
 } from "lucide-react";
 
-// Police Inter configurée pour une lisibilité maximale
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "700", "800"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-// --- NOUVEAU LOGO N.E ---
+// --- CONFIGURATION ---
+const CONTACT_EMAIL = "joindre.novaent@gmail.com";
+const WHATSAPP_NUMBER = "22969783365";
+const MAP_LINK =
+  "https://www.google.com/maps/search/?api=1&query=Ouidah,+Benin";
+
+// --- LOGO N.E ---
 const LogoNE = () => (
   <svg
     width="40"
@@ -30,6 +41,7 @@ const LogoNE = () => (
     viewBox="0 0 40 40"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
+    className="shrink-0"
   >
     <path
       d="M4 4H36V36H4V4Z"
@@ -67,10 +79,11 @@ const LogoNE = () => (
   </svg>
 );
 
-// --- Composants ---
+// --- COMPOSANTS ---
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -78,19 +91,27 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const scrollTo = (id: string) => {
+    setMobileMenuOpen(false);
+    const element = document.getElementById(id);
+    if (element) element.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <nav
-      className={`fixed w-full z-50 transition-all duration-700 ${
+      className={`fixed w-full z-50 transition-all duration-500 ${
         scrolled
-          ? "py-4 bg-[#0a0a0b]/80 backdrop-blur-xl border-b border-white/5 shadow-[0_0_30px_rgba(0,0,0,0.5)]"
+          ? "py-3 bg-[#0a0a0b]/90 backdrop-blur-xl border-b border-white/5"
           : "py-6 bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <div className="flex items-center gap-3 group cursor-pointer">
-          {/* Intégration du nouveau Logo N.E */}
+        <div
+          className="flex items-center gap-3 cursor-pointer z-50"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
           <div className="relative">
-            <div className="absolute inset-0 bg-cyan-500/20 blur-lg rounded-full group-hover:blur-xl transition-all duration-500 opacity-50"></div>
+            <div className="absolute inset-0 bg-cyan-500/20 blur-lg rounded-full opacity-50"></div>
             <LogoNE />
           </div>
           <span className="text-xl font-extrabold tracking-tight text-white">
@@ -100,30 +121,59 @@ const Navbar = () => {
             </span>
           </span>
         </div>
+
+        {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-10">
           {["Expertise", "Héritage Vodun", "Contact"].map((item) => (
-            <a
+            <button
               key={item}
-              href={`#${item.toLowerCase().replace(" ", "-")}`}
+              onClick={() => scrollTo(item.toLowerCase().replace(" ", "-"))}
               className="text-sm font-semibold text-gray-400 hover:text-white transition-colors uppercase tracking-wider"
             >
               {item}
-            </a>
+            </button>
           ))}
-          <button className="relative group px-6 py-3 font-bold text-sm text-black overflow-hidden rounded-lg">
-            <span className="absolute inset-0 w-full h-full transition duration-300 bg-cyan-400 opacity-100 group-hover:opacity-90"></span>
-            <span className="absolute bottom-0 left-0 w-full h-1 transition duration-300 bg-white mix-blend-screen group-hover:h-full"></span>
-            <span className="relative z-10 flex items-center gap-2">
-              Initialiser <ArrowRight size={16} />
-            </span>
+          <button
+            onClick={() => scrollTo("contact")}
+            className="px-6 py-2 bg-cyan-500/10 border border-cyan-500/50 text-cyan-400 hover:bg-cyan-400 hover:text-black font-bold rounded-lg transition-all text-sm flex items-center gap-2"
+          >
+            Initialiser <ArrowRight size={16} />
+          </button>
+        </div>
+
+        {/* Mobile Menu Toggle */}
+        <div className="md:hidden z-50">
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="text-white p-2"
+          >
+            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="absolute top-0 left-0 w-full h-screen bg-[#0a0a0b] flex flex-col items-center justify-center gap-8 md:hidden z-40"
+        >
+          {["Expertise", "Héritage Vodun", "Contact"].map((item) => (
+            <button
+              key={item}
+              onClick={() => scrollTo(item.toLowerCase().replace(" ", "-"))}
+              className="text-2xl font-bold text-white uppercase tracking-widest"
+            >
+              {item}
+            </button>
+          ))}
+        </motion.div>
+      )}
     </nav>
   );
 };
 
-// BentoCard Premium V2
 const BentoCard = ({
   title,
   desc,
@@ -136,51 +186,224 @@ const BentoCard = ({
   className?: string;
 }) => (
   <motion.div
-    whileHover={{ y: -5, scale: 1.01 }}
-    className={`glass-panel p-8 rounded-3xl flex flex-col justify-between group relative overflow-hidden transition-all duration-500 ${className}`}
+    whileHover={{ y: -5 }}
+    className={`glass-panel p-6 md:p-8 rounded-3xl flex flex-col justify-between group relative overflow-hidden transition-all duration-500 ${className}`}
   >
-    {/* Lumière dynamique au survol */}
     <div className="absolute -inset-x-20 -inset-y-20 bg-gradient-to-br from-cyan-500/10 via-blue-600/5 to-transparent opacity-0 group-hover:opacity-100 blur-2xl transition-opacity duration-700" />
-
     <div className="relative z-10">
-      <div className="w-14 h-14 bg-gradient-to-br from-white/10 to-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-8 group-hover:border-cyan-500/30 transition-colors duration-300 shadow-[0_0_15px_rgba(0,247,255,0.1)]">
+      <div className="w-12 h-12 md:w-14 md:h-14 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center mb-6 md:mb-8 group-hover:border-cyan-500/30 transition-colors shadow-[0_0_15px_rgba(0,247,255,0.05)]">
         <Icon
           className="text-cyan-300 group-hover:text-cyan-200 transition-colors"
-          size={26}
+          size={24}
         />
       </div>
-      <h3 className="text-3xl font-bold text-white mb-4 tracking-tight">
+      <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4 tracking-tight">
         {title}
       </h3>
-      <p className="text-gray-300 font-medium leading-relaxed text-base">
+      <p className="text-gray-400 font-medium leading-relaxed text-sm md:text-base">
         {desc}
       </p>
     </div>
   </motion.div>
 );
 
+const FloatingWhatsApp = () => (
+  <motion.a
+    href={`https://wa.me/${WHATSAPP_NUMBER}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    initial={{ scale: 0 }}
+    animate={{ scale: 1 }}
+    transition={{ delay: 1 }}
+    className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(37,211,102,0.4)] hover:scale-110 transition-transform cursor-pointer group"
+  >
+    <MessageCircle size={30} className="text-white" fill="white" />
+    <span className="absolute right-16 bg-white text-black px-3 py-1 rounded-lg text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-lg">
+      Discuter sur WhatsApp
+    </span>
+  </motion.a>
+);
+
+// --- COMPOSANT CONTACT FORM ---
+const ContactSection = () => {
+  const [formData, setFormData] = useState({
+    subject: "Demande de Devis",
+    message: "",
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const subject = encodeURIComponent(`[NOVA ENT] ${formData.subject}`);
+    const body = encodeURIComponent(formData.message);
+    window.open(
+      `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`,
+      "_blank"
+    );
+  };
+
+  return (
+    <section id="contact" className="py-24 px-4 relative">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
+          {/* Info Side */}
+          <div className="space-y-10">
+            <div>
+              <span className="text-cyan-500 font-mono text-sm tracking-widest uppercase">
+                Canal Sécurisé
+              </span>
+              <h2 className="text-4xl md:text-6xl font-extrabold text-white mt-2 mb-6">
+                Initialiser la <br />
+                Communication.
+              </h2>
+              <p className="text-gray-400 text-lg leading-relaxed">
+                Prêt à redéfinir les standards ? Notre équipe est basée à
+                Ouidah, mais nous opérons sur le cloud mondial.
+              </p>
+            </div>
+
+            <div className="space-y-6">
+              <a
+                href={MAP_LINK}
+                target="_blank"
+                className="flex items-center gap-6 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-cyan-500/30 transition-all group cursor-pointer"
+              >
+                <div className="w-12 h-12 rounded-full bg-cyan-900/20 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
+                  <MapPin size={20} />
+                </div>
+                <div>
+                  <h4 className="text-white font-bold">Quartier Général</h4>
+                  <p className="text-gray-400 text-sm">
+                    Ouidah, Bénin (Google Maps)
+                  </p>
+                </div>
+                <ExternalLink
+                  size={16}
+                  className="ml-auto text-gray-600 group-hover:text-white"
+                />
+              </a>
+
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="flex items-center gap-6 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-cyan-500/30 transition-all group cursor-pointer"
+              >
+                <div className="w-12 h-12 rounded-full bg-blue-900/20 flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform">
+                  <Mail size={20} />
+                </div>
+                <div>
+                  <h4 className="text-white font-bold">Courriel Crypté</h4>
+                  <p className="text-gray-400 text-sm">{CONTACT_EMAIL}</p>
+                </div>
+              </a>
+
+              <a
+                href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                target="_blank"
+                className="flex items-center gap-6 p-4 rounded-2xl bg-[#25D366]/5 border border-[#25D366]/10 hover:border-[#25D366]/40 transition-all group cursor-pointer"
+              >
+                <div className="w-12 h-12 rounded-full bg-[#25D366]/10 flex items-center justify-center text-[#25D366] group-hover:scale-110 transition-transform">
+                  <MessageCircle size={20} />
+                </div>
+                <div>
+                  <h4 className="text-white font-bold">Ligne Directe</h4>
+                  <p className="text-gray-400 text-sm">
+                    +229 69 78 33 65 (WhatsApp)
+                  </p>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          {/* Form Side */}
+          <div className="bg-[#121214] p-8 md:p-10 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 blur-[50px] rounded-full"></div>
+            <h3 className="text-2xl font-bold text-white mb-8">
+              Transmission de Données
+            </h3>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                  Type de Requête
+                </label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {[
+                    "Développement Web",
+                    "Architecture Logicielle",
+                    "Héritage Vodun",
+                    "Autre",
+                  ].map((opt) => (
+                    <button
+                      type="button"
+                      key={opt}
+                      onClick={() => setFormData({ ...formData, subject: opt })}
+                      className={`px-4 py-3 rounded-lg text-sm font-medium border transition-all text-left ${
+                        formData.subject === opt
+                          ? "bg-cyan-500/20 border-cyan-500 text-cyan-300"
+                          : "bg-white/5 border-white/10 text-gray-400 hover:bg-white/10"
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                  Message
+                </label>
+                <textarea
+                  rows={4}
+                  required
+                  placeholder="Décrivez votre vision..."
+                  className="w-full bg-black/30 border border-white/10 rounded-xl p-4 text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 outline-none transition-all resize-none"
+                  onChange={(e) =>
+                    setFormData({ ...formData, message: e.target.value })
+                  }
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl shadow-lg shadow-cyan-900/20 flex items-center justify-center gap-3 transition-all transform hover:scale-[1.02]"
+              >
+                <Send size={18} /> Transmettre la Demande
+              </button>
+
+              <p className="text-xs text-center text-gray-600 mt-4">
+                En cliquant, votre client mail s&apos;ouvrira avec le message
+                pré-rempli.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 export default function Home() {
   return (
     <div
-      className={`min-h-screen selection:bg-cyan-500/30 selection:text-cyan-50 ${inter.className}`}
+      className={`min-h-screen bg-[#0a0a0b] selection:bg-cyan-500/30 selection:text-cyan-50 ${inter.className}`}
     >
       <Navbar />
+      <FloatingWhatsApp />
 
-      {/* HERO SECTION - PUISSANCE MAXIMALE */}
-      <section className="relative h-screen flex flex-col justify-center items-center overflow-hidden px-4">
-        {/* Glow Effects Intenses */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-blue-800/20 rounded-[100%] blur-[140px] animate-pulse-slow" />
-        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-cyan-800/10 rounded-full blur-[160px]" />
-        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10 z-0"></div>
+      {/* HERO SECTION - RESPONSIVE FIX */}
+      <section className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden px-4 pt-20 md:pt-0">
+        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10 z-0 pointer-events-none"></div>
+        {/* Cercles lumineux ajustés pour mobile */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] md:w-[800px] h-[300px] md:h-[500px] bg-blue-800/20 rounded-[100%] blur-[80px] md:blur-[140px] animate-pulse-slow" />
 
-        <div className="relative z-10 text-center max-w-5xl mx-auto space-y-10">
+        <div className="relative z-10 text-center max-w-5xl mx-auto space-y-6 md:space-y-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm font-semibold text-cyan-300 backdrop-blur-md shadow-[0_0_20px_rgba(0,247,255,0.1)]"
+            transition={{ duration: 0.8 }}
+            className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs md:text-sm font-semibold text-cyan-300 backdrop-blur-md"
           >
-            <Cpu size={16} className="animate-pulse" />
+            <Cpu size={14} className="animate-pulse" />
             <span className="uppercase tracking-wider">
               Ingénierie & Culture
             </span>
@@ -189,11 +412,11 @@ export default function Home() {
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="text-7xl md:text-9xl font-extrabold tracking-tighter leading-none text-white"
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-5xl sm:text-7xl md:text-9xl font-extrabold tracking-tighter leading-none text-white"
           >
             L&apos;Architecture de
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-blue-500 pb-4">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-200 to-blue-500 pb-2 md:pb-4">
               l&apos;Invisible.
             </span>
           </motion.h1>
@@ -201,8 +424,8 @@ export default function Home() {
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-            className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed font-medium"
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-lg md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed font-medium px-4"
           >
             Édition logicielle, Systèmes complexes et Héritage culturel. Nous
             forgeons les écosystèmes numériques qui redéfinissent votre
@@ -213,102 +436,86 @@ export default function Home() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col sm:flex-row gap-6 justify-center pt-8"
+            className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center pt-4 md:pt-8 px-4"
           >
-            <button className="group relative px-8 py-4 bg-cyan-400 text-black font-extrabold text-lg rounded-lg overflow-hidden shadow-[0_0_30px_rgba(0,247,255,0.3)] hover:shadow-[0_0_50px_rgba(0,247,255,0.5)] transition-shadow">
-              <div className="absolute inset-0 w-0 bg-white transition-all duration-[400ms] ease-out group-hover:w-full"></div>
+            <a
+              href="#expertise"
+              className="group relative px-8 py-4 bg-cyan-400 text-black font-extrabold text-lg rounded-lg overflow-hidden flex items-center justify-center gap-2"
+            >
               <span className="relative z-10 flex items-center gap-2">
                 Nos Services{" "}
                 <ArrowRight className="group-hover:translate-x-1 transition-transform" />
               </span>
-            </button>
-            <button className="px-8 py-4 bg-transparent border-2 border-white/20 text-white font-bold text-lg rounded-lg hover:bg-white/5 hover:border-white/40 transition-all backdrop-blur-sm">
+            </a>
+            <a
+              href="#heritage-vodun"
+              className="px-8 py-4 bg-transparent border-2 border-white/20 text-white font-bold text-lg rounded-lg hover:bg-white/5 transition-all text-center"
+            >
               Le Studio
-            </button>
+            </a>
           </motion.div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-          <span className="text-xs text-cyan-500 font-bold uppercase tracking-[0.3em] animate-pulse">
-            Scroll
-          </span>
-          <div className="w-[1px] h-24 bg-gradient-to-b from-cyan-500 to-transparent relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-1/2 bg-white animate-scrolldown blur-[1px]"></div>
-          </div>
         </div>
       </section>
 
-      {/* SECTION EXPERTISE - MAPPÉE SUR TES VRAIS SERVICES */}
-      <section id="expertise" className="py-40 px-4 relative overflow-hidden">
-        {/* Background noise light */}
-        <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px]" />
-
+      {/* SECTION EXPERTISE - RESPONSIVE GRID */}
+      <section id="expertise" className="py-20 md:py-40 px-4 md:px-6 relative">
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="mb-24 md:w-2/3">
-            <h2 className="text-5xl md:text-7xl font-extrabold mb-8 tracking-tight leading-tight">
+          <div className="mb-16 md:mb-24 md:w-2/3">
+            <h2 className="text-4xl md:text-7xl font-extrabold mb-6 md:mb-8 tracking-tight leading-tight text-white">
               Domination <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
                 Par la Technologie.
               </span>
             </h2>
-            <p className="text-gray-300 text-xl leading-relaxed font-medium">
+            <p className="text-gray-300 text-lg md:text-xl leading-relaxed font-medium">
               Une suite complète de compétences pour transformer n&apos;importe
               quel défi en solution logicielle souveraine.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 grid-rows-2 gap-8 h-auto">
-            {/* 1. ARCHITECTURE & EDITION LOGICIELLE */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 auto-rows-fr">
             <BentoCard
-              className="md:col-span-1 md:row-span-2 bg-gradient-to-b from-[#1a1a2e] to-transparent border-blue-900/30"
-              title="Architecture & Édition Logicielle"
-              desc="Conception de systèmes névralgiques et création de logiciels sur-mesure. Nous bâtissons les fondations de votre souveraineté numérique."
+              className="md:col-span-1 md:row-span-2 bg-gradient-to-b from-[#1a1a2e] to-transparent border-blue-900/30 min-h-[300px]"
+              title="Architecture & Édition"
+              desc="Conception de systèmes névralgiques et logiciels sur-mesure. Fondations de souveraineté numérique."
               icon={Server}
             />
-
-            {/* 2. DÉVELOPPEMENT WEB (Vélocité) */}
             <BentoCard
-              className="md:col-span-1"
-              title="Développement Web & Mobile"
-              desc="Des interfaces ultra-rapides. Développement de sites et d'applications qui suppriment la friction entre l'intention et l'action."
+              className="md:col-span-1 min-h-[250px]"
+              title="Dév. Web & Mobile"
+              desc="Next.js 15, React, TypeScript. Interfaces ultra-rapides sans friction."
               icon={Code}
             />
-
-            {/* 3. GRAPHISME & DESIGN */}
             <BentoCard
-              className="md:col-span-1"
-              title="Design & Esthétique"
-              desc="Graphisme avancé et Web Design. Quand l'identité visuelle rencontre l'ergonomie pour une expérience utilisateur immersive."
+              className="md:col-span-1 min-h-[250px]"
+              title="Design & UI/UX"
+              desc="Graphisme avancé. L'identité visuelle rencontre l'ergonomie immersive."
               icon={Palette}
             />
-
-            {/* 4. BASE DE DONNÉES (Admin BDD) */}
             <BentoCard
-              className="md:col-span-2 bg-gradient-to-tr from-[#111] to-[#1a1a2e]"
+              className="md:col-span-2 bg-gradient-to-tr from-[#111] to-[#1a1a2e] min-h-[250px]"
               title="Administration de Données"
-              desc="Architecture et sécurisation de bases de données. Transformer le chaos informationnel en avantage stratégique et sécurisé."
+              desc="Architecture et sécurisation de bases de données. Transformer le chaos en avantage stratégique."
               icon={Database}
             />
           </div>
         </div>
       </section>
 
-      {/* SECTION HERITAGE VODUN - UPGRADE MAJESTUEUX */}
-      <section id="heritage-vodun" className="py-40 relative overflow-hidden">
-        {/* Changement d'ambiance : Noir profond vers Or Antique */}
+      {/* SECTION HERITAGE VODUN - RESPONSIVE */}
+      <section
+        id="heritage-vodun"
+        className="py-20 md:py-40 relative overflow-hidden"
+      >
         <div className="absolute inset-0 bg-[#050506]" />
-        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-yellow-600/50 to-transparent"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[800px] h-[300px] md:h-[800px] bg-yellow-600/5 rounded-full blur-[80px] md:blur-[120px]" />
 
-        {/* Halo Doré */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-yellow-600/5 rounded-full blur-[120px] pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="text-center mb-16 space-y-4">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
+          <div className="text-center mb-12 md:mb-16 space-y-4">
             <span className="inline-block px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded text-yellow-500 text-xs font-bold tracking-[0.3em] uppercase">
               Département Culturel
             </span>
-            <h2 className="text-5xl md:text-8xl font-serif text-white tracking-tight">
+            <h2 className="text-4xl md:text-8xl font-serif text-white tracking-tight">
               HÉRITAGE{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-b from-yellow-300 to-yellow-700">
                 VODUN
@@ -316,60 +523,44 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            {/* Carte Gauche : Le Concept */}
-            <div className="p-10 rounded-[2rem] bg-gradient-to-br from-[#12100a] to-black border border-yellow-900/30 relative overflow-hidden group hover:border-yellow-600/40 transition-colors duration-500">
-              <div className="absolute top-0 right-0 p-10 opacity-10">
-                <Landmark size={120} className="text-yellow-500" />
-              </div>
-              <h3 className="text-3xl font-serif text-white mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+            <div className="p-8 md:p-10 rounded-[2rem] bg-gradient-to-br from-[#12100a] to-black border border-yellow-900/30">
+              <h3 className="text-2xl md:text-3xl font-serif text-white mb-6">
                 Le Centre Culturel
               </h3>
-              <p className="text-gray-400 leading-relaxed mb-8 text-lg">
-                Plus qu&apos;un projet digital, <strong>Heritage Vodun</strong>{" "}
-                est un sanctuaire. Nous offrons des prestations de services
-                culturels complètes pour la valorisation, la préservation et la
-                diffusion de l&apos;histoire.
+              <p className="text-gray-400 mb-8">
+                Une prestation complète pour la valorisation de l&apos;histoire.
+                Événements, médiation et préservation.
               </p>
               <ul className="space-y-3 mb-8">
-                <li className="flex items-center gap-3 text-yellow-100/70">
-                  <ShieldCheck size={18} className="text-yellow-600" /> Gestion
-                  d&apos;événements culturels
+                <li className="flex items-center gap-3 text-yellow-100/70 text-sm">
+                  <ShieldCheck size={16} className="text-yellow-600" /> Gestion
+                  d&apos;événements
                 </li>
-                <li className="flex items-center gap-3 text-yellow-100/70">
-                  <ShieldCheck size={18} className="text-yellow-600" />{" "}
+                <li className="flex items-center gap-3 text-yellow-100/70 text-sm">
+                  <ShieldCheck size={16} className="text-yellow-600" />{" "}
                   Médiation historique
                 </li>
               </ul>
-              <button className="w-full py-4 bg-white/5 border border-yellow-500/20 text-yellow-500 font-bold rounded-xl hover:bg-yellow-500 hover:text-black transition-all">
+              <button className="w-full py-3 bg-white/5 border border-yellow-500/20 text-yellow-500 font-bold rounded-xl hover:bg-yellow-500 hover:text-black transition-all">
                 Découvrir le Centre
               </button>
             </div>
 
-            {/* Carte Droite : L'Innovation */}
-            <div className="p-10 rounded-[2rem] bg-gradient-to-bl from-[#0f1014] to-black border border-cyan-900/30 relative overflow-hidden group">
-              {/* Fusion des couleurs : Or et Cyan */}
-              <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/5 to-cyan-500/5 opacity-50"></div>
-
+            <div className="p-8 md:p-10 rounded-[2rem] bg-gradient-to-bl from-[#0f1014] to-black border border-cyan-900/30 relative overflow-hidden">
               <div className="relative z-10 text-right">
                 <div className="inline-flex items-center justify-end gap-2 text-cyan-400 mb-4 font-mono text-sm">
                   <Sparkles size={14} /> INNOVATION HYBRIDE
                 </div>
-                <h3 className="text-3xl font-serif text-white mb-6">
+                <h3 className="text-2xl md:text-3xl font-serif text-white mb-6">
                   Le Sanctuaire Numérique
                 </h3>
-                <p className="text-gray-400 leading-relaxed mb-8 text-lg">
-                  Quand l&apos;ingénierie de Nova ENT rencontre le sacré. Nous
-                  numérisons les artefacts et créons des musées virtuels pour
-                  que la mémoire traverse le temps.
+                <p className="text-gray-400 mb-8">
+                  Numérisation d&apos;artefacts et musées virtuels. La mémoire
+                  traverse le temps.
                 </p>
-
-                <div className="relative h-40 bg-black/50 rounded-xl border border-white/10 flex items-center justify-center overflow-hidden">
-                  <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20"></div>
-                  <Box className="w-16 h-16 text-white/20 animate-float" />
-                  <span className="absolute bottom-4 text-xs text-gray-500 uppercase tracking-widest">
-                    Simulation 3D en cours...
-                  </span>
+                <div className="relative h-32 md:h-40 bg-black/50 rounded-xl border border-white/10 flex items-center justify-center">
+                  <Box className="w-12 h-12 text-white/20 animate-bounce" />
                 </div>
               </div>
             </div>
@@ -377,58 +568,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER MONOLITHIQUE */}
-      <footer className="border-t border-white/5 bg-[#050506] py-24 px-6 relative overflow-hidden">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1000px] h-[300px] bg-cyan-900/10 rounded-[100%] blur-[120px]" />
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 relative z-10">
-          <div className="col-span-1 md:col-span-2 space-y-8">
-            <div className="flex items-center gap-3">
-              <LogoNE />
-              <h2 className="text-3xl font-extrabold tracking-tighter text-white">
-                NOVA<span className="text-cyan-500">ENT</span>.
-              </h2>
-            </div>
-            <p className="text-gray-400 max-w-md text-lg font-medium leading-relaxed">
-              Définir les nouveaux standards de l&apos;ingénierie numérique et
-              de la préservation culturelle.
-            </p>
+      {/* SECTION CONTACT ET FOOTER */}
+      <ContactSection />
+
+      <footer className="border-t border-white/5 bg-black py-12 px-6 text-center md:text-left">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-2">
+            <LogoNE />
+            <span className="text-white font-bold">NOVA ENT.</span>
           </div>
-          <div className="space-y-6">
-            <h4 className="text-white font-bold uppercase tracking-wider">
-              Expertise
-            </h4>
-            <ul className="space-y-4 text-gray-500 font-medium">
-              <li className="hover:text-cyan-400 transition-colors cursor-pointer">
-                Architecture Logicielle
-              </li>
-              <li className="hover:text-cyan-400 transition-colors cursor-pointer">
-                Web & Design
-              </li>
-              <li className="hover:text-yellow-500 transition-colors cursor-pointer">
-                Héritage Vodun
-              </li>
-            </ul>
-          </div>
-          <div className="space-y-6">
-            <h4 className="text-white font-bold uppercase tracking-wider">
-              Contact
-            </h4>
-            <ul className="space-y-4 text-gray-500 font-medium">
-              <li className="hover:text-white transition-colors cursor-pointer">
-                Initialiser un projet
-              </li>
-              <li className="hover:text-white transition-colors cursor-pointer">
-                Carrières
-              </li>
-              <li className="hover:text-white transition-colors cursor-pointer">
-                Cotonou, Bénin
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="max-w-7xl mx-auto mt-20 pt-8 border-t border-white/5 flex justify-between items-center text-gray-600 text-sm font-medium">
-          <p>© {new Date().getFullYear()} NOVA ENT. Tous droits réservés.</p>
-          <p>Fabriqué par Nova ENT pour vous</p>
+          <p className="text-gray-600 text-sm">
+            © {new Date().getFullYear()} NOVA ENT. Ouidah, Bénin.
+          </p>
         </div>
       </footer>
     </div>
