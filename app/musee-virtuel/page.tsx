@@ -31,7 +31,7 @@ const exhibits = [
     desc: "Fusion entre l'art traditionnel béninois et le calcul quantique. (Bientôt disponible : numérisation en cours).",
     icon: Hexagon,
     color: "purple",
-    link: "#",
+    link: "/musee-virtuel/masque-quantique",
     status: "Disponible",
   },
   {
