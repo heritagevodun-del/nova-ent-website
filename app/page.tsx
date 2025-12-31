@@ -20,7 +20,7 @@ import {
   Landmark,
   Zap,
   ExternalLink,
-  type LucideIcon, // CORRECTION 1 : Import du type officiel
+  type LucideIcon, // Import du type officiel pour éviter l'erreur "any"
 } from "lucide-react";
 
 // Polices
@@ -36,56 +36,59 @@ const WHATSAPP_NUMBER = "22969783365";
 const MAP_LINK = "https://www.google.com/maps/search/?api=1&query=Ouidah+Benin";
 const HERITAGE_URL = "https://www.heritagevodun.com/";
 
-// --- LOGO N.E ---
-const LogoNE = () => (
+// --- NOUVEAU LOGO "NE" (MONOGRAMME VECTORIEL) ---
+const LogoNE = ({ className = "" }: { className?: string }) => (
   <svg
-    width="40"
-    height="40"
-    viewBox="0 0 40 40"
+    width="50"
+    height="45"
+    viewBox="0 0 50 45"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    className="shrink-0"
+    className={`shrink-0 ${className}`}
   >
-    <rect
-      width="40"
-      height="40"
-      rx="8"
-      fill="url(#paint0_linear)"
-      fillOpacity="0.1"
-    />
-    <path
-      d="M4 4H36V36H4V4Z"
-      stroke="url(#paint0_linear)"
-      strokeWidth="2"
-      strokeOpacity="0.5"
-    />
-    <path
-      d="M12 28V12L22 28V12"
-      stroke="white"
-      strokeWidth="2.5"
-      strokeLinecap="square"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M28 28V12H34M28 20H33M28 28H34"
-      stroke="white"
-      strokeWidth="2.5"
-      strokeLinecap="square"
-      strokeLinejoin="round"
-    />
     <defs>
       <linearGradient
-        id="paint0_linear"
-        x1="4"
-        y1="4"
-        x2="36"
-        y2="36"
+        id="nova-gradient"
+        x1="0"
+        y1="0"
+        x2="50"
+        y2="45"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stopColor="#00F7FF" />
-        <stop offset="1" stopColor="#0066FF" stopOpacity="0" />
+        <stop offset="0%" stopColor="#00F7FF" />
+        <stop offset="100%" stopColor="#0066FF" />
       </linearGradient>
     </defs>
+
+    {/* Lettre N */}
+    <path
+      d="M8 34V11L20 34V11"
+      stroke="url(#nova-gradient)"
+      strokeWidth="3.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+
+    {/* Lettre E */}
+    <path
+      d="M28 34H40M28 22.5H38M28 11H40"
+      stroke="url(#nova-gradient)"
+      strokeWidth="3.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+
+    {/* Barre verticale du E */}
+    <path
+      d="M28 11V34"
+      stroke="url(#nova-gradient)"
+      strokeWidth="3.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+
+    {/* L'étincelle */}
+    <circle cx="40" cy="11" r="2" fill="white" />
   </svg>
 );
 
@@ -194,7 +197,7 @@ const Navbar = () => {
   );
 };
 
-// CORRECTION 2 : Utilisation du type "LucideIcon" au lieu de "any" pour satisfaire le linter
+// --- BENTO CARD ---
 const BentoCard = ({
   title,
   desc,
@@ -271,7 +274,7 @@ const ContactSection = () => {
                 Concrétisez votre <br />
                 Ambition.
               </h2>
-              {/* CORRECTION 3 : l'expertise -> l&apos;expertise */}
+              {/* CORRECTION : L'expertise -> l&apos;expertise */}
               <p className="text-gray-300 text-lg leading-relaxed">
                 Vous avez une vision ? Nous avons l&apos;expertise pour la
                 réaliser. <br />
@@ -392,7 +395,7 @@ export default function Home() {
             <span>Solutions Digitales Premium</span>
           </motion.div>
 
-          {/* CORRECTION 4 : L'Excellence -> L&apos;Excellence */}
+          {/* CORRECTION : L'Excellence -> L&apos;Excellence */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -463,7 +466,7 @@ export default function Home() {
               desc="Soyez visible partout. Nous développons des sites web et des applications mobiles rapides, intuitives et conçues pour convertir vos visiteurs en clients."
               icon={Code}
             />
-            {/* CORRECTION 5 : l'identité -> l&apos;identité */}
+            {/* CORRECTION : l'identité -> l&apos;identité */}
             <BentoCard
               className="md:col-span-1 min-h-[250px]"
               title="Design Impactant"
@@ -514,7 +517,7 @@ export default function Home() {
               transition={{ delay: 0.2 }}
               className="text-amber-100/70 max-w-2xl mx-auto text-xl italic font-serif"
             >
-              {/* CORRECTION 6 : Guillemets &quot; et l&apos;histoire */}
+              {/* CORRECTION : &quot; pour les guillemets et &apos; pour l'apostrophe */}
               &quot;Préserver l&apos;histoire pour les générations futures grâce
               au numérique.&quot;
             </motion.p>
@@ -535,7 +538,7 @@ export default function Home() {
               <h3 className="text-3xl text-white mb-4 font-serif">
                 Centre Culturel à Ouidah
               </h3>
-              {/* CORRECTION 7 : l&apos;histoire */}
+              {/* CORRECTION : l'histoire -> l&apos;histoire */}
               <p className="text-gray-400 font-sans leading-relaxed mb-6">
                 Situé au cœur de la cité historique, notre centre est un espace
                 vivant. Expositions, conférences et médiation culturelle pour
@@ -554,7 +557,7 @@ export default function Home() {
                 <History size={40} />
               </div>
               <div className="text-cyan-600 font-bold tracking-widest text-xs uppercase mb-2">
-                {/* CORRECTION 8 : L&apos;Innovation */}
+                {/* CORRECTION : L'Innovation -> L&apos;Innovation */}
                 L&apos;Innovation
               </div>
               <h3 className="text-3xl text-white mb-4 font-serif">
