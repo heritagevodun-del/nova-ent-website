@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Inter, Cinzel } from "next/font/google";
+import Link from "next/link";
 import {
   Database,
   ArrowRight,
@@ -20,7 +21,8 @@ import {
   Landmark,
   Zap,
   ExternalLink,
-  type LucideIcon, // Import du type officiel pour éviter l'erreur "any"
+  Info,
+  type LucideIcon,
 } from "lucide-react";
 
 // Polices
@@ -36,7 +38,7 @@ const WHATSAPP_NUMBER = "22969783365";
 const MAP_LINK = "https://www.google.com/maps/search/?api=1&query=Ouidah+Benin";
 const HERITAGE_URL = "https://www.heritagevodun.com/";
 
-// --- NOUVEAU LOGO "NE" (MONOGRAMME VECTORIEL) ---
+// --- LOGO "NE" (MONOGRAMME VECTORIEL) ---
 const LogoNE = ({ className = "" }: { className?: string }) => (
   <svg
     width="50"
@@ -59,8 +61,6 @@ const LogoNE = ({ className = "" }: { className?: string }) => (
         <stop offset="100%" stopColor="#0066FF" />
       </linearGradient>
     </defs>
-
-    {/* Lettre N */}
     <path
       d="M8 34V11L20 34V11"
       stroke="url(#nova-gradient)"
@@ -68,8 +68,6 @@ const LogoNE = ({ className = "" }: { className?: string }) => (
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-
-    {/* Lettre E */}
     <path
       d="M28 34H40M28 22.5H38M28 11H40"
       stroke="url(#nova-gradient)"
@@ -77,8 +75,6 @@ const LogoNE = ({ className = "" }: { className?: string }) => (
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-
-    {/* Barre verticale du E */}
     <path
       d="M28 11V34"
       stroke="url(#nova-gradient)"
@@ -86,13 +82,11 @@ const LogoNE = ({ className = "" }: { className?: string }) => (
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-
-    {/* L'étincelle */}
     <circle cx="40" cy="11" r="2" fill="white" />
   </svg>
 );
 
-// --- COMPOSANTS ---
+// --- COMPOSANTS NAV & UI ---
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -135,7 +129,14 @@ const Navbar = () => {
           </span>
         </div>
 
+        {/* MENU DESKTOP */}
         <div className="hidden md:flex items-center gap-10">
+          <Link
+            href="/a-propos"
+            className="text-sm font-semibold text-gray-300 hover:text-white transition-colors uppercase tracking-wider"
+          >
+            À Propos
+          </Link>
           <button
             onClick={() => handleNavClick("expertise")}
             className="text-sm font-semibold text-gray-300 hover:text-white transition-colors uppercase tracking-wider"
@@ -148,7 +149,6 @@ const Navbar = () => {
           >
             Héritage Vodun <ExternalLink size={12} className="opacity-50" />
           </button>
-
           <button
             onClick={() => handleNavClick("contact")}
             className="px-6 py-2 bg-white text-black hover:bg-cyan-50 font-bold rounded-lg transition-all text-sm flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(0,247,255,0.4)]"
@@ -173,6 +173,13 @@ const Navbar = () => {
           animate={{ opacity: 1, y: 0 }}
           className="absolute top-0 left-0 w-full h-screen bg-[#0f172a] flex flex-col items-center justify-center gap-10 md:hidden z-40"
         >
+          <Link
+            href="/a-propos"
+            className="text-2xl font-bold text-white uppercase tracking-widest flex items-center gap-2"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            À Propos <Info size={20} className="text-cyan-400" />
+          </Link>
           <button
             onClick={() => handleNavClick("expertise")}
             className="text-2xl font-bold text-white uppercase tracking-widest"
@@ -250,7 +257,6 @@ const ContactSection = () => {
     subject: "Demande de Devis",
     message: "",
   });
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const subject = encodeURIComponent(`[NOVA ENT] ${formData.subject}`);
@@ -271,10 +277,8 @@ const ContactSection = () => {
                 Démarrer une collaboration
               </span>
               <h2 className="text-4xl md:text-6xl font-extrabold text-white mb-6">
-                Concrétisez votre <br />
-                Ambition.
+                Concrétisez votre <br /> Ambition.
               </h2>
-              {/* CORRECTION : L'expertise -> l&apos;expertise */}
               <p className="text-gray-300 text-lg leading-relaxed">
                 Vous avez une vision ? Nous avons l&apos;expertise pour la
                 réaliser. <br />
@@ -282,7 +286,6 @@ const ContactSection = () => {
                 partout dans le monde.
               </p>
             </div>
-
             <div className="space-y-4">
               <a
                 href={MAP_LINK}
@@ -311,7 +314,6 @@ const ContactSection = () => {
               </a>
             </div>
           </div>
-
           <div className="bg-[#1e293b] p-8 md:p-10 rounded-3xl border border-white/10 shadow-2xl relative">
             <h3 className="text-2xl font-bold text-white mb-6">
               Envoyez-nous un message
@@ -383,7 +385,6 @@ export default function Home() {
       <section className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden px-4 pt-20 md:pt-0">
         <div className="absolute top-0 left-0 w-full h-[500px] bg-blue-500/10 blur-[120px] pointer-events-none" />
         <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20 pointer-events-none mix-blend-overlay"></div>
-
         <div className="relative z-10 text-center max-w-5xl mx-auto space-y-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -394,8 +395,6 @@ export default function Home() {
             <Zap size={16} className="text-yellow-400 fill-yellow-400" />
             <span>Solutions Digitales Premium</span>
           </motion.div>
-
-          {/* CORRECTION : L'Excellence -> L&apos;Excellence */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -407,7 +406,6 @@ export default function Home() {
               Numérique.
             </span>
           </motion.h1>
-
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -415,10 +413,9 @@ export default function Home() {
             className="text-lg md:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed font-medium px-4"
           >
             Nous créons les outils digitaux qui propulsent votre activité.{" "}
-            <br />
-            Site web, applications, logiciels : transformez vos idées en succès.
+            <br /> Site web, applications, logiciels : transformez vos idées en
+            succès.
           </motion.p>
-
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -452,7 +449,6 @@ export default function Home() {
               résultats.
             </p>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 auto-rows-fr">
             <BentoCard
               className="md:col-span-1 md:row-span-2 bg-gradient-to-b from-slate-800 to-transparent border-slate-700 min-h-[350px]"
@@ -466,7 +462,6 @@ export default function Home() {
               desc="Soyez visible partout. Nous développons des sites web et des applications mobiles rapides, intuitives et conçues pour convertir vos visiteurs en clients."
               icon={Code}
             />
-            {/* CORRECTION : l'identité -> l&apos;identité */}
             <BentoCard
               className="md:col-span-1 min-h-[250px]"
               title="Design Impactant"
@@ -483,13 +478,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION HERITAGE VODUN - VITRINE (TEASER) */}
+      {/* SECTION HERITAGE VODUN */}
       <section
         id="heritage"
         className={`py-20 md:py-32 relative overflow-hidden bg-[#0a0500] ${cinzel.className}`}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a1000] to-black opacity-80" />
-
         <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
           <div className="text-center mb-16 space-y-4">
             <motion.div
@@ -500,7 +494,6 @@ export default function Home() {
             >
               Division Culturelle
             </motion.div>
-
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -509,7 +502,6 @@ export default function Home() {
             >
               HÉRITAGE VODUN
             </motion.h2>
-
             <motion.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -517,12 +509,10 @@ export default function Home() {
               transition={{ delay: 0.2 }}
               className="text-amber-100/70 max-w-2xl mx-auto text-xl italic font-serif"
             >
-              {/* CORRECTION : &quot; pour les guillemets et &apos; pour l'apostrophe */}
               &quot;Préserver l&apos;histoire pour les générations futures grâce
               au numérique.&quot;
             </motion.p>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <a
               href={HERITAGE_URL}
@@ -538,7 +528,6 @@ export default function Home() {
               <h3 className="text-3xl text-white mb-4 font-serif">
                 Centre Culturel à Ouidah
               </h3>
-              {/* CORRECTION : l'histoire -> l&apos;histoire */}
               <p className="text-gray-400 font-sans leading-relaxed mb-6">
                 Situé au cœur de la cité historique, notre centre est un espace
                 vivant. Expositions, conférences et médiation culturelle pour
@@ -548,7 +537,6 @@ export default function Home() {
                 Visiter le site dédié <ArrowRight size={14} />
               </div>
             </a>
-
             <a
               href="/musee-virtuel"
               className="p-8 md:p-12 rounded-3xl bg-gradient-to-br from-[#0c1220] to-black border border-cyan-900/30 hover:border-cyan-500/30 transition-colors group cursor-pointer block"
@@ -557,7 +545,6 @@ export default function Home() {
                 <History size={40} />
               </div>
               <div className="text-cyan-600 font-bold tracking-widest text-xs uppercase mb-2">
-                {/* CORRECTION : L'Innovation -> L&apos;Innovation */}
                 L&apos;Innovation
               </div>
               <h3 className="text-3xl text-white mb-4 font-serif">
@@ -578,15 +565,97 @@ export default function Home() {
 
       <ContactSection />
 
-      <footer className="border-t border-white/5 bg-[#020617] py-12 px-6">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-2">
-            <LogoNE />
-            <span className="text-white font-bold text-xl">NOVA ENT.</span>
+      {/* FOOTER AMÉLIORÉ (SANS TECH STACK) */}
+      <footer className="border-t border-white/5 bg-[#020617] pt-20 pb-10 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div className="col-span-1 md:col-span-2 space-y-6">
+              <div className="flex items-center gap-2">
+                <LogoNE />
+                <span className="text-white font-bold text-xl">NOVA ENT.</span>
+              </div>
+              <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
+                L&apos;agence digitale de référence au Bénin. Nous fusionnons
+                créativité, technologie et culture pour propulser les
+                entreprises audacieuses.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="text-white font-bold uppercase tracking-widest text-sm">
+                Navigation
+              </h4>
+              <ul className="space-y-2 text-sm text-slate-400">
+                <li>
+                  <Link
+                    href="/"
+                    className="hover:text-cyan-400 transition-colors"
+                  >
+                    Accueil
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/a-propos"
+                    className="hover:text-cyan-400 transition-colors"
+                  >
+                    À Propos
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={() =>
+                      document
+                        .getElementById("expertise")
+                        ?.scrollIntoView({ behavior: "smooth" })
+                    }
+                    className="hover:text-cyan-400 transition-colors"
+                  >
+                    Expertise
+                  </button>
+                </li>
+                <li>
+                  <Link
+                    href="/musee-virtuel"
+                    className="hover:text-cyan-400 transition-colors"
+                  >
+                    Musée Virtuel
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="text-white font-bold uppercase tracking-widest text-sm">
+                Contact
+              </h4>
+              <ul className="space-y-2 text-sm text-slate-400">
+                <li className="flex items-center gap-2">
+                  <MapPin size={14} /> Ouidah, Bénin
+                </li>
+                <li className="flex items-center gap-2">
+                  <Mail size={14} /> {CONTACT_EMAIL}
+                </li>
+                <li className="flex items-center gap-2 text-cyan-400 font-bold">
+                  <MessageCircle size={14} /> +229 69 78 33 65
+                </li>
+              </ul>
+            </div>
           </div>
-          <p className="text-slate-500 text-sm">
-            © {new Date().getFullYear()} NOVA ENT. Tous droits réservés.
-          </p>
+
+          <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-slate-600 text-xs">
+              © {new Date().getFullYear()} NOVA ENT. Tous droits réservés.
+            </p>
+            <div className="flex gap-6 text-slate-600 text-xs">
+              <span className="hover:text-slate-400 cursor-pointer">
+                Mentions Légales
+              </span>
+              <span className="hover:text-slate-400 cursor-pointer">
+                Politique de Confidentialité
+              </span>
+            </div>
+          </div>
         </div>
       </footer>
     </div>
