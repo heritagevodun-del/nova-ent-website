@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+// CORRECTION 1 : Suppression de 'Check' qui était inutile
 import { ArrowLeft, Box, Share2, Info, Cpu } from "lucide-react";
 import { Inter, Cinzel } from "next/font/google";
 import SceneMasque from "./SceneMasque";
@@ -12,6 +13,38 @@ const inter = Inter({ subsets: ["latin"] });
 const cinzel = Cinzel({ subsets: ["latin"], weight: ["400", "700"] });
 
 export default function MasqueQuantiquePage() {
+  // FONCTION 1 : GESTION DU CLIC "DEMANDER LE SCAN" (WhatsApp)
+  const handleScanRequest = () => {
+    const message =
+      "Bonjour NOVA ENT, je viens de voir le Masque Quantique. Je suis intéressé par vos services de numérisation 3D pour un projet culturel.";
+    const whatsappUrl = `https://wa.me/22969783365?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
+  // FONCTION 2 : GESTION DU CLIC "PARTAGER"
+  const handleShare = async () => {
+    const shareData = {
+      title: "Le Masque Quantique - NOVA ENT",
+      text: "Découvre cet artefact numérique incroyable fusionnant tradition et futur !",
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch {
+        // CORRECTION 2 : Suppression de la variable 'err' inutilisée dans le catch
+        console.log("Partage annulé");
+      }
+    } else {
+      // Sur PC (Fallback) : Copie le lien
+      navigator.clipboard.writeText(window.location.href);
+      alert("Lien copié dans le presse-papier ! 📋");
+    }
+  };
+
   return (
     <div
       className={`min-h-screen bg-[#020617] text-white selection:bg-purple-500/30 ${inter.className}`}
@@ -71,8 +104,8 @@ export default function MasqueQuantiquePage() {
                 Quantique.
               </span>
             </h1>
+            {/* CORRECTION 3 : Utilisation de &quot; pour les guillemets */}
             <p className="text-slate-400 italic">
-              {/* CORRECTION 1 : Guillemets remplacés par &quot; */}
               &quot;Quand la tradition Gélèdé rencontre la Blockchain.&quot;
             </p>
           </div>
@@ -108,15 +141,21 @@ export default function MasqueQuantiquePage() {
             </div>
           </div>
 
-          {/* Actions */}
+          {/* Actions Fonctionnelles */}
           <div className="flex gap-4 pt-4">
-            <button className="flex-1 py-4 bg-white text-black font-bold rounded-xl hover:bg-purple-50 transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(168,85,247,0.3)]">
+            <button
+              onClick={handleScanRequest}
+              className="flex-1 py-4 bg-white text-black font-bold rounded-xl hover:bg-purple-50 transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(168,85,247,0.3)] hover:scale-[1.02] active:scale-95"
+            >
               <Info size={18} /> Demander le scan
             </button>
-            {/* CORRECTION 2 : Ajout de aria-label */}
+
+            {/* CORRECTION 4 : Ajout de title="Partager" pour satisfaire le linter strict */}
             <button
+              onClick={handleShare}
               aria-label="Partager"
-              className="px-6 py-4 bg-white/5 text-white font-bold rounded-xl hover:bg-white/10 transition-all border border-white/10"
+              title="Partager"
+              className="px-6 py-4 bg-white/5 text-white font-bold rounded-xl hover:bg-white/10 transition-all border border-white/10 hover:scale-[1.02] active:scale-95"
             >
               <Share2 size={18} />
             </button>
