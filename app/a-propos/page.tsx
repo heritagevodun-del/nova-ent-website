@@ -167,7 +167,7 @@ export default function AboutPage() {
                 compromettre.&quot;
               </p>
               <p className="text-cyan-400 font-bold text-sm tracking-widest uppercase">
-                — Fondateur & Lead Developer
+                — Fondateur & CEO de NOVA ENT
               </p>
             </div>
           </div>
