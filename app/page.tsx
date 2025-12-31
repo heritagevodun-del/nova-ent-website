@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Inter, Cinzel } from "next/font/google";
-// CORRECTION 1 : Ajout de "ExternalLink" dans la liste des imports ci-dessous
 import {
   Database,
   ArrowRight,
@@ -21,6 +20,7 @@ import {
   Landmark,
   Zap,
   ExternalLink,
+  type LucideIcon, // CORRECTION 1 : Import du type officiel
 } from "lucide-react";
 
 // Polices
@@ -194,6 +194,7 @@ const Navbar = () => {
   );
 };
 
+// CORRECTION 2 : Utilisation du type "LucideIcon" au lieu de "any" pour satisfaire le linter
 const BentoCard = ({
   title,
   desc,
@@ -202,7 +203,7 @@ const BentoCard = ({
 }: {
   title: string;
   desc: string;
-  icon: React.ElementType;
+  icon: LucideIcon;
   className?: string;
 }) => (
   <motion.div
@@ -270,7 +271,7 @@ const ContactSection = () => {
                 Concrétisez votre <br />
                 Ambition.
               </h2>
-              {/* CORRECTION 2 : l'expertise -> l&apos;expertise */}
+              {/* CORRECTION 3 : l'expertise -> l&apos;expertise */}
               <p className="text-gray-300 text-lg leading-relaxed">
                 Vous avez une vision ? Nous avons l&apos;expertise pour la
                 réaliser. <br />
@@ -391,7 +392,7 @@ export default function Home() {
             <span>Solutions Digitales Premium</span>
           </motion.div>
 
-          {/* CORRECTION 3 : L'Excellence -> L&apos;Excellence */}
+          {/* CORRECTION 4 : L'Excellence -> L&apos;Excellence */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -462,7 +463,7 @@ export default function Home() {
               desc="Soyez visible partout. Nous développons des sites web et des applications mobiles rapides, intuitives et conçues pour convertir vos visiteurs en clients."
               icon={Code}
             />
-            {/* CORRECTION 4 : l'identité -> l&apos;identité */}
+            {/* CORRECTION 5 : l'identité -> l&apos;identité */}
             <BentoCard
               className="md:col-span-1 min-h-[250px]"
               title="Design Impactant"
@@ -513,7 +514,7 @@ export default function Home() {
               transition={{ delay: 0.2 }}
               className="text-amber-100/70 max-w-2xl mx-auto text-xl italic font-serif"
             >
-              {/* CORRECTION 5 : guillemets -> &quot; et l'histoire -> l&apos;histoire */}
+              {/* CORRECTION 6 : Guillemets &quot; et l&apos;histoire */}
               &quot;Préserver l&apos;histoire pour les générations futures grâce
               au numérique.&quot;
             </motion.p>
@@ -534,7 +535,7 @@ export default function Home() {
               <h3 className="text-3xl text-white mb-4 font-serif">
                 Centre Culturel à Ouidah
               </h3>
-              {/* CORRECTION 6 : l'histoire -> l&apos;histoire */}
+              {/* CORRECTION 7 : l&apos;histoire */}
               <p className="text-gray-400 font-sans leading-relaxed mb-6">
                 Situé au cœur de la cité historique, notre centre est un espace
                 vivant. Expositions, conférences et médiation culturelle pour
@@ -552,8 +553,8 @@ export default function Home() {
               <div className="text-cyan-500 mb-6">
                 <History size={40} />
               </div>
-              {/* CORRECTION : L'Innovation -> L&apos;Innovation */}
               <div className="text-cyan-600 font-bold tracking-widest text-xs uppercase mb-2">
+                {/* CORRECTION 8 : L&apos;Innovation */}
                 L&apos;Innovation
               </div>
               <h3 className="text-3xl text-white mb-4 font-serif">
