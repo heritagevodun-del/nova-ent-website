@@ -2,13 +2,54 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Box, Sparkles, ShieldCheck } from "lucide-react";
+import {
+  ArrowLeft,
+  Box,
+  Hexagon,
+  Layers,
+  ArrowRight,
+  ShieldCheck,
+} from "lucide-react";
 import Link from "next/link";
 
-export default function MuseeVirtuel() {
+// DONNÉES DES EXPOSITIONS
+const exhibits = [
+  {
+    id: "01",
+    title: "L'Esprit Numérique",
+    subtitle: "Architecture Algorithmique",
+    desc: "Une représentation visuelle de nos structures de données. Observez comment l'information circule dans une géométrie parfaite.",
+    icon: Box,
+    color: "cyan",
+    link: "/musee-virtuel/artefact-1",
+    status: "Disponible",
+  },
+  {
+    id: "02",
+    title: "Le Masque Quantique",
+    subtitle: "Héritage & Futur",
+    desc: "Fusion entre l'art traditionnel béninois et le calcul quantique. (Bientôt disponible : numérisation en cours).",
+    icon: Hexagon,
+    color: "purple",
+    link: "#",
+    status: "Verrouillé",
+  },
+  {
+    id: "03",
+    title: "Réseau Vodun",
+    subtitle: "Connexion Globale",
+    desc: "Visualisation des nœuds de communication à travers le monde. La toile invisible qui relie nos cultures.",
+    icon: Layers,
+    color: "emerald",
+    link: "#",
+    status: "Verrouillé",
+  },
+];
+
+export default function MuseeGallery() {
   return (
-    <div className="min-h-screen bg-[#020617] text-white overflow-hidden font-sans selection:bg-cyan-500/30">
-      {/* Barre de navigation du musée */}
+    <div className="min-h-screen bg-[#020617] text-white font-sans selection:bg-cyan-500/30">
+      {/* HEADER */}
       <nav className="fixed top-0 w-full p-6 flex justify-between items-center z-50 backdrop-blur-md border-b border-white/5">
         <Link
           href="/"
@@ -20,90 +61,92 @@ export default function MuseeVirtuel() {
           NOVA <span className="text-cyan-400">MÉTA</span>
         </div>
         <div className="hidden md:block text-xs text-gray-500 uppercase tracking-tighter font-mono">
-          Statut : Connexion au sanctuaire établie
+          Gallery Access: Authorized
         </div>
       </nav>
 
-      {/* Zone d'exposition 3D (Simulée avec Framer Motion pour la fluidité) */}
-      <main className="relative h-screen flex items-center justify-center">
-        {/* Fond d'ambiance */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-cyan-900/10 via-[#020617] to-[#020617] pointer-events-none" />
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 max-w-7xl mx-auto px-6 gap-12 items-center relative z-10">
-          {/* Texte de présentation */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="space-y-8"
+      <main className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
+        {/* TITRE */}
+        <div className="text-center mb-20 space-y-4">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-5xl md:text-7xl font-serif text-white"
           >
-            <span className="inline-flex items-center gap-2 px-3 py-1 bg-cyan-500/10 border border-cyan-500/20 rounded text-cyan-400 text-xs font-bold uppercase tracking-widest">
-              <Sparkles size={14} /> Pièce d&apos;Exception #01
+            Archives{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">
+              Immersives
             </span>
-            <h1 className="text-5xl md:text-7xl font-serif leading-tight">
-              Le Gardien des <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-500">
-                Origines
-              </span>
-            </h1>
-            <p className="text-gray-400 text-lg leading-relaxed max-w-md">
-              Cette relique numérisée représente la fusion entre la protection
-              ancestrale et la pérennité numérique. Explorez chaque détail en
-              haute définition dans notre environnement WebGL.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <button className="px-8 py-3 bg-cyan-500 text-black font-bold rounded-full hover:bg-cyan-400 transition-all shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_30px_rgba(6,182,212,0.5)]">
-                Lancer l&apos;Expérience
-              </button>
-              <button className="px-8 py-3 border border-white/10 rounded-full hover:bg-white/5 transition-all flex items-center gap-2 text-sm font-medium">
-                <ShieldCheck size={18} className="text-cyan-400" /> Certifié
-                Blockchain
-              </button>
-            </div>
-          </motion.div>
+          </motion.h1>
+          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+            Bienvenue dans le sanctuaire numérique de NOVA ENT. Sélectionnez un
+            artefact pour lancer la simulation 3D correspondante.
+          </p>
+        </div>
 
-          {/* Élément 3D Interactif (Placeholder animé) */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1 }}
-            className="relative flex items-center justify-center h-[400px]"
-          >
-            {/* Halo lumineux derrière l'objet */}
-            <div className="w-64 h-64 md:w-96 md:h-96 bg-gradient-to-br from-cyan-500/20 to-blue-900/10 rounded-full blur-[80px] absolute animate-pulse-slow" />
-
-            {/* L'Objet en lévitation */}
+        {/* GRILLE DES ARTEFACTS */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {exhibits.map((item, index) => (
             <motion.div
-              animate={{
-                rotateY: 360,
-                y: [0, -20, 0],
-              }}
-              transition={{
-                rotateY: { duration: 20, repeat: Infinity, ease: "linear" },
-                y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
-              }}
-              className="relative z-10"
+              key={item.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className={`relative group p-8 rounded-3xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all overflow-hidden ${
+                item.status === "Verrouillé" ? "opacity-50 grayscale" : ""
+              }`}
             >
-              <Box
-                size={280}
-                className="text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]"
-                strokeWidth={0.5}
+              {/* Icône de fond décorative */}
+              <item.icon
+                className="absolute -right-10 -top-10 text-white/5 rotate-12 transition-transform group-hover:rotate-45"
+                size={200}
               />
-            </motion.div>
 
-            {/* Cercles orbitaux */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-[350px] h-[350px] border border-cyan-500/10 rounded-full animate-[spin_10s_linear_infinite]" />
-              <div className="w-[450px] h-[450px] border border-white/5 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
-            </div>
-          </motion.div>
+              <div className="relative z-10 flex flex-col h-full justify-between">
+                <div>
+                  <div className="flex justify-between items-start mb-6">
+                    <span className="text-xs font-mono text-cyan-500 border border-cyan-500/30 px-2 py-1 rounded">
+                      #{item.id}
+                    </span>
+                    {item.status === "Verrouillé" && (
+                      <ShieldCheck size={16} className="text-gray-500" />
+                    )}
+                  </div>
+
+                  <h3 className="text-2xl font-bold font-serif mb-2 text-white group-hover:text-cyan-400 transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs font-bold tracking-widest text-gray-500 uppercase mb-4">
+                    {item.subtitle}
+                  </p>
+                  <p className="text-gray-400 text-sm leading-relaxed mb-8">
+                    {item.desc}
+                  </p>
+                </div>
+
+                {item.status !== "Verrouillé" ? (
+                  <Link
+                    href={item.link}
+                    className="inline-flex items-center gap-2 text-cyan-400 font-bold text-sm uppercase tracking-wider hover:gap-4 transition-all"
+                  >
+                    Lancer l&apos;expérience <ArrowRight size={16} />
+                  </Link>
+                ) : (
+                  <div className="text-gray-600 text-sm font-mono cursor-not-allowed">
+                    {/* Correction du commentaire ici : on utilise des accolades */}
+                    {`// ACCÈS RESTREINT`}
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          ))}
         </div>
       </main>
 
-      {/* Footer Musée */}
       <footer className="fixed bottom-0 w-full p-6 text-center z-50 pointer-events-none">
+        {/* Correction du // SYSTEM READY dans le footer */}
         <p className="text-[10px] text-gray-600 uppercase tracking-[0.3em] font-mono">
-          © {new Date().getFullYear()} NOVA ENT. Network v2.4.0 / Latency: 12ms
+          © {new Date().getFullYear()} NOVA ENT. • SYSTEM READY
         </p>
       </footer>
     </div>
