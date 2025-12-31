@@ -32,7 +32,7 @@ const exhibits = [
     icon: Hexagon,
     color: "purple",
     link: "#",
-    status: "Verrouillé",
+    status: "Disponible",
   },
   {
     id: "03",
