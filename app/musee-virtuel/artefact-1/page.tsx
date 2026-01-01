@@ -6,7 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import dynamic from "next/dynamic";
 
 // Import Dynamique : '../Scene3D' signifie "Remonte d'un dossier et trouve Scene3D"
-const Scene3D = dynamic(() => import("../Scene3D"), {
+const Scene3D = dynamic(() => import("./Scene3D"), {
   ssr: false,
   loading: () => (
     <div className="text-cyan-500 animate-pulse text-xs flex items-center justify-center h-full">
