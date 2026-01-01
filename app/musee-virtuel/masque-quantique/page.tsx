@@ -142,7 +142,7 @@ export default function MasqueQuantiquePage() {
               onClick={handleContact}
               className="flex-1 py-4 bg-white text-black font-bold rounded-xl hover:bg-purple-50 transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(168,85,247,0.3)] hover:scale-[1.02] active:scale-95"
             >
-              <MessageCircle size={18} /> Discuter du projet
+              <MessageCircle size={18} /> Discuter d'un projet
             </button>
 
             <button
