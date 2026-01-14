@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Inter, Cinzel } from "next/font/google";
 import Link from "next/link";
+import Image from "next/image"; // Importation pour le logo
 import {
   Database,
   ArrowRight,
@@ -37,54 +38,6 @@ const CONTACT_EMAIL = "joindre.novaent@gmail.com";
 const WHATSAPP_NUMBER = "22969783365";
 const MAP_LINK = "https://www.google.com/maps/search/?api=1&query=Ouidah+Benin";
 const HERITAGE_URL = "https://www.heritagevodun.com/";
-
-// --- LOGO "NE" (MONOGRAMME VECTORIEL) ---
-const LogoNE = ({ className = "" }: { className?: string }) => (
-  <svg
-    width="50"
-    height="45"
-    viewBox="0 0 50 45"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className={`shrink-0 ${className}`}
-  >
-    <defs>
-      <linearGradient
-        id="nova-gradient"
-        x1="0"
-        y1="0"
-        x2="50"
-        y2="45"
-        gradientUnits="userSpaceOnUse"
-      >
-        <stop offset="0%" stopColor="#00F7FF" />
-        <stop offset="100%" stopColor="#0066FF" />
-      </linearGradient>
-    </defs>
-    <path
-      d="M8 34V11L20 34V11"
-      stroke="url(#nova-gradient)"
-      strokeWidth="3.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M28 34H40M28 22.5H38M28 11H40"
-      stroke="url(#nova-gradient)"
-      strokeWidth="3.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M28 11V34"
-      stroke="url(#nova-gradient)"
-      strokeWidth="3.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <circle cx="40" cy="11" r="2" fill="white" />
-  </svg>
-);
 
 // --- COMPOSANTS NAV & UI ---
 
@@ -123,7 +76,17 @@ const Navbar = () => {
           className="flex items-center gap-3 cursor-pointer z-50"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
-          <LogoNE />
+          {/* --- LOGO IMAGE --- */}
+          <div className="relative w-12 h-12">
+            <Image
+              src="/logo-nova.png"
+              alt="Logo NOVA ENT"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
+
           <span className="text-xl font-extrabold tracking-tight text-white">
             NOVA<span className="text-cyan-400">ENT</span>
           </span>
@@ -565,13 +528,22 @@ export default function Home() {
 
       <ContactSection />
 
-      {/* FOOTER AMÉLIORÉ (SANS TECH STACK) */}
+      {/* FOOTER AMÉLIORÉ */}
       <footer className="border-t border-white/5 bg-[#020617] pt-20 pb-10 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
             <div className="col-span-1 md:col-span-2 space-y-6">
               <div className="flex items-center gap-2">
-                <LogoNE />
+                {/* --- LOGO IMAGE FOOTER --- */}
+                <div className="relative w-10 h-10">
+                  <Image
+                    src="/logo-nova.png"
+                    alt="Logo NOVA ENT"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+                {/* ------------------------- */}
                 <span className="text-white font-bold text-xl">NOVA ENT.</span>
               </div>
               <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
