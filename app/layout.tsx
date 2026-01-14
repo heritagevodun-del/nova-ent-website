@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Inter, Cinzel } from "next/font/google"; // Ajout de Cinzel
+import { Inter, Cinzel } from "next/font/google"; // Importation des polices
 import "./globals.css";
 
-// Configuration optimisée des polices
+// 1. Configuration des polices (Optimisation Next.js)
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -15,14 +15,14 @@ const cinzel = Cinzel({
   display: "swap",
 });
 
-// --- STRATÉGIE SEO EXPERT ---
+// 2. Stratégie SEO & Métadonnées
 export const metadata: Metadata = {
-  // URL de base pour que les images sociales fonctionnent (à mettre à jour après déploiement)
+  // URL de base (Indispensable pour les images OG sur les réseaux)
   metadataBase: new URL("https://nova-ent-website.vercel.app/"),
 
   title: {
     default: "NOVA ENT | Agence Digitale & Métavers à Ouidah",
-    template: "%s | NOVA ENT", // Permet d'avoir "Musée | NOVA ENT" automatiquement
+    template: "%s | NOVA ENT",
   },
   description:
     "Agence experte en développement web, logiciels sur-mesure et préservation numérique du patrimoine Vodun. Basée à Ouidah, Bénin. Transformez votre vision en réalité.",
@@ -50,16 +50,25 @@ export const metadata: Metadata = {
     siteName: "NOVA ENT",
     locale: "fr_FR",
     type: "website",
-  },
+    images: [
+      {
+        url: "/logo-nova.png", // ⚠️ Vérifie que ce fichier est bien dans le dossier /public
+        width: 800,
+        height: 800,
+        alt: "Logo NOVA ENT",
+      },
+    ],
+  }, // <--- C'était ici l'erreur : fermeture de l'objet openGraph
 
   // Apparence sur Twitter (X)
   twitter: {
     card: "summary_large_image",
     title: "NOVA ENT | Futur & Tradition",
     description: "Agence digitale experte à Ouidah. Web, Mobile & Métavers.",
+    images: ["/logo-nova.png"], // Ajout recommandé pour Twitter aussi
   },
 
-  // Instructions pour Google
+  // Instructions pour les robots d'indexation (Google)
   robots: {
     index: true,
     follow: true,
@@ -73,6 +82,7 @@ export const metadata: Metadata = {
   },
 };
 
+// 3. Layout Racine
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -80,11 +90,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className="scroll-smooth">
-      {/* On applique ici les classes globales :
-         - inter.className : police par défaut
-         - cinzel.variable : variable pour la police secondaire
-         - bg-[#020617] : fond sombre global
-         - text-white : texte blanc par défaut
+      {/* Application des classes globales :
+          - inter.className : Police corps de texte par défaut
+          - cinzel.variable : Variable CSS pour les titres (ex: font-cinzel)
+          - bg-[#020617] : Fond "Slate 950" (Thème sombre profond)
       */}
       <body
         className={`${inter.className} ${cinzel.variable} bg-[#020617] text-white antialiased selection:bg-cyan-500/30`}
