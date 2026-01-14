@@ -609,7 +609,7 @@ export default function Home() {
                   <Mail size={14} /> {CONTACT_EMAIL}
                 </li>
                 <li className="flex items-center gap-2 text-cyan-400 font-bold">
-                  <MessageCircle size={14} /> +229 69 78 33 65
+                  <MessageCircle size={14} /> +229 01 69 78 33 65
                 </li>
               </ul>
             </div>
