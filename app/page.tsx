@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"; // Correction: Retrait de useCallback
 import { motion, AnimatePresence } from "framer-motion";
 import { Inter, Cinzel } from "next/font/google";
 import Link from "next/link";
@@ -26,7 +26,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-// Polices
+// Polices (Optimisées avec swap)
 const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
@@ -40,7 +40,7 @@ const cinzel = Cinzel({
 
 // --- CONFIGURATION ---
 const CONTACT_EMAIL = "joindre.novaent@gmail.com";
-const WHATSAPP_NUMBER = "2290169783365";
+const WHATSAPP_NUMBER = "+22969783365";
 const MAP_LINK = "https://www.google.com/maps/search/?api=1&query=Ouidah+Benin";
 const HERITAGE_URL = "https://www.heritagevodun.com/";
 
@@ -50,20 +50,21 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // OPTIMISATION 1 : Scroll Handler optimisé
+  // OPTIMISATION MAJEURE : Intersection Observer au lieu de Scroll Listener
+  // C'est beaucoup plus léger pour le processeur mobile
   useEffect(() => {
-    let ticking = false;
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setScrolled(window.scrollY > 20);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const trigger = document.getElementById("nav-trigger");
+    if (!trigger) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setScrolled(!entry.isIntersecting);
+      },
+      { threshold: 0, rootMargin: "0px" },
+    );
+
+    observer.observe(trigger);
+    return () => observer.disconnect();
   }, []);
 
   const handleNavClick = (key: string) => {
@@ -80,6 +81,12 @@ const Navbar = () => {
 
   return (
     <>
+      {/* Pixel espion pour déclencher le changement de couleur sans ralentir le site */}
+      <div
+        id="nav-trigger"
+        className="absolute top-0 left-0 w-full h-1 pointer-events-none opacity-0"
+      />
+
       <nav
         className={`fixed w-full z-50 transition-all duration-300 ${
           scrolled
@@ -99,7 +106,7 @@ const Navbar = () => {
                 fill
                 sizes="(max-width: 768px) 40px, 48px"
                 className="object-contain"
-                priority
+                priority // Chargement prioritaire immédiat
               />
             </div>
 
@@ -136,12 +143,12 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* BOUTON MOBILE OPTIMISÉ */}
+          {/* BOUTON MOBILE (Zone de touche agrandie pour réactivité) */}
           <div className="md:hidden z-50">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="text-white p-2 -mr-2 touch-manipulation active:scale-95 transition-transform"
-              aria-label="Ouvrir le menu"
+              aria-label="Menu"
             >
               {mobileMenuOpen ? <X size={32} /> : <Menu size={32} />}
             </button>
@@ -159,6 +166,7 @@ const Navbar = () => {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="fixed inset-0 bg-[#0f172a] z-40 flex flex-col items-center justify-center gap-8 md:hidden overflow-hidden"
           >
+            {/* Fond statique pour éviter les ralentissements d'animation */}
             <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10 pointer-events-none"></div>
 
             <Link
@@ -236,7 +244,7 @@ const FloatingWhatsApp = () => (
     animate={{ scale: 1 }}
     transition={{ delay: 1 }}
     className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform cursor-pointer group hover:shadow-green-500/30"
-    aria-label="Discuter sur WhatsApp"
+    aria-label="WhatsApp"
   >
     <MessageCircle size={30} className="text-white" fill="white" />
   </motion.a>
@@ -374,7 +382,8 @@ export default function Home() {
 
       {/* HERO SECTION */}
       <section className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden px-4 pt-20 md:pt-0">
-        <div className="absolute top-0 left-0 w-full h-[500px] bg-blue-500/10 blur-[80px] md:blur-[120px] pointer-events-none will-change-transform" />
+        {/* OPTIMISATION PERF: Blur réduit pour mobile et will-change */}
+        <div className="absolute top-0 left-0 w-full h-[500px] bg-blue-500/10 blur-[60px] md:blur-[120px] pointer-events-none will-change-transform" />
         <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20 pointer-events-none mix-blend-overlay"></div>
 
         <div className="relative z-10 text-center max-w-5xl mx-auto space-y-8">
@@ -445,7 +454,6 @@ export default function Home() {
             </p>
           </div>
 
-          {/* GRILLE OPTIMISÉE POUR LE CLS (Layout Shift) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 auto-rows-fr">
             <BentoCard
               className="md:col-span-1 md:row-span-2 bg-gradient-to-b from-slate-800 to-transparent border-slate-700 min-h-[350px]"
