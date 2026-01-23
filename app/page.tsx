@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Inter, Cinzel } from "next/font/google";
 import Link from "next/link";
-import Image from "next/image"; // Importation pour le logo
+import Image from "next/image";
 import {
   Database,
   ArrowRight,
@@ -30,12 +30,17 @@ import {
 const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
 });
-const cinzel = Cinzel({ subsets: ["latin"], weight: ["400", "700"] });
+const cinzel = Cinzel({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+});
 
 // --- CONFIGURATION ---
 const CONTACT_EMAIL = "joindre.novaent@gmail.com";
-const WHATSAPP_NUMBER = "22969783365";
+const WHATSAPP_NUMBER = "2290169783365";
 const MAP_LINK = "https://www.google.com/maps/search/?api=1&query=Ouidah+Benin";
 const HERITAGE_URL = "https://www.heritagevodun.com/";
 
@@ -45,9 +50,19 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // OPTIMISATION 1 : Scroll Handler optimisé
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -64,106 +79,117 @@ const Navbar = () => {
   };
 
   return (
-    <nav
-      className={`fixed w-full z-50 transition-all duration-500 ${
-        scrolled
-          ? "py-3 bg-[#0f172a]/90 backdrop-blur-xl border-b border-white/10"
-          : "py-6 bg-transparent"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <div
-          className="flex items-center gap-3 cursor-pointer z-50"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        >
-          {/* --- LOGO IMAGE --- */}
-          <div className="relative w-12 h-12">
-            <Image
-              src="/logo-nova.png"
-              alt="Logo NOVA ENT"
-              fill
-              className="object-contain"
-              priority
-            />
+    <>
+      <nav
+        className={`fixed w-full z-50 transition-all duration-300 ${
+          scrolled
+            ? "py-3 bg-[#0f172a]/95 backdrop-blur-md border-b border-white/10 shadow-lg"
+            : "py-5 bg-transparent"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+          <div
+            className="flex items-center gap-3 cursor-pointer z-50"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          >
+            <div className="relative w-10 h-10 md:w-12 md:h-12">
+              <Image
+                src="/logo-nova.png"
+                alt="Logo NOVA ENT"
+                fill
+                sizes="(max-width: 768px) 40px, 48px"
+                className="object-contain"
+                priority
+              />
+            </div>
+
+            <span className="text-xl font-extrabold tracking-tight text-white">
+              NOVA<span className="text-cyan-400">ENT</span>
+            </span>
           </div>
 
-          <span className="text-xl font-extrabold tracking-tight text-white">
-            NOVA<span className="text-cyan-400">ENT</span>
-          </span>
-        </div>
+          {/* MENU DESKTOP */}
+          <div className="hidden md:flex items-center gap-8">
+            <Link
+              href="/a-propos"
+              className="text-sm font-semibold text-gray-300 hover:text-white transition-colors uppercase tracking-wider"
+            >
+              À Propos
+            </Link>
+            <button
+              onClick={() => handleNavClick("expertise")}
+              className="text-sm font-semibold text-gray-300 hover:text-white transition-colors uppercase tracking-wider"
+            >
+              Expertise
+            </button>
+            <button
+              onClick={() => handleNavClick("heritage")}
+              className="text-sm font-semibold text-gray-300 hover:text-white transition-colors uppercase tracking-wider flex items-center gap-1"
+            >
+              Héritage Vodun <ExternalLink size={12} className="opacity-50" />
+            </button>
+            <button
+              onClick={() => handleNavClick("contact")}
+              className="px-6 py-2 bg-white text-black hover:bg-cyan-50 font-bold rounded-lg transition-all text-sm flex items-center gap-2 shadow-lg hover:shadow-cyan-500/20"
+            >
+              CONTACT <ArrowRight size={16} />
+            </button>
+          </div>
 
-        {/* MENU DESKTOP */}
-        <div className="hidden md:flex items-center gap-10">
-          <Link
-            href="/a-propos"
-            className="text-sm font-semibold text-gray-300 hover:text-white transition-colors uppercase tracking-wider"
-          >
-            À Propos
-          </Link>
-          <button
-            onClick={() => handleNavClick("expertise")}
-            className="text-sm font-semibold text-gray-300 hover:text-white transition-colors uppercase tracking-wider"
-          >
-            Expertise
-          </button>
-          <button
-            onClick={() => handleNavClick("heritage")}
-            className="text-sm font-semibold text-gray-300 hover:text-white transition-colors uppercase tracking-wider flex items-center gap-1"
-          >
-            Héritage Vodun <ExternalLink size={12} className="opacity-50" />
-          </button>
-          <button
-            onClick={() => handleNavClick("contact")}
-            className="px-6 py-2 bg-white text-black hover:bg-cyan-50 font-bold rounded-lg transition-all text-sm flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(0,247,255,0.4)]"
-          >
-            CONTACT <ArrowRight size={16} />
-          </button>
+          {/* BOUTON MOBILE OPTIMISÉ */}
+          <div className="md:hidden z-50">
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="text-white p-2 -mr-2 touch-manipulation active:scale-95 transition-transform"
+              aria-label="Ouvrir le menu"
+            >
+              {mobileMenuOpen ? <X size={32} /> : <Menu size={32} />}
+            </button>
+          </div>
         </div>
+      </nav>
 
-        <div className="md:hidden z-50">
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-white p-2"
+      {/* MENU MOBILE OVERLAY */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className="fixed inset-0 bg-[#0f172a] z-40 flex flex-col items-center justify-center gap-8 md:hidden overflow-hidden"
           >
-            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
-      </div>
+            <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10 pointer-events-none"></div>
 
-      {mobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="absolute top-0 left-0 w-full h-screen bg-[#0f172a] flex flex-col items-center justify-center gap-10 md:hidden z-40"
-        >
-          <Link
-            href="/a-propos"
-            className="text-2xl font-bold text-white uppercase tracking-widest flex items-center gap-2"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            À Propos <Info size={20} className="text-cyan-400" />
-          </Link>
-          <button
-            onClick={() => handleNavClick("expertise")}
-            className="text-2xl font-bold text-white uppercase tracking-widest"
-          >
-            Expertise
-          </button>
-          <button
-            onClick={() => handleNavClick("heritage")}
-            className="text-2xl font-bold text-white uppercase tracking-widest flex items-center gap-2"
-          >
-            Héritage Vodun <ExternalLink size={20} />
-          </button>
-          <button
-            onClick={() => handleNavClick("contact")}
-            className="text-2xl font-bold text-cyan-400 uppercase tracking-widest"
-          >
-            Contact
-          </button>
-        </motion.div>
-      )}
-    </nav>
+            <Link
+              href="/a-propos"
+              className="text-2xl font-bold text-white uppercase tracking-widest flex items-center gap-2 p-4 active:text-cyan-400"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              À Propos <Info size={20} className="text-cyan-400" />
+            </Link>
+            <button
+              onClick={() => handleNavClick("expertise")}
+              className="text-2xl font-bold text-white uppercase tracking-widest p-4 active:text-cyan-400"
+            >
+              Expertise
+            </button>
+            <button
+              onClick={() => handleNavClick("heritage")}
+              className="text-2xl font-bold text-white uppercase tracking-widest flex items-center gap-2 p-4 active:text-cyan-400"
+            >
+              Héritage Vodun <ExternalLink size={20} />
+            </button>
+            <button
+              onClick={() => handleNavClick("contact")}
+              className="text-2xl font-bold text-cyan-400 uppercase tracking-widest p-4 border border-cyan-500/30 rounded-xl bg-cyan-500/10"
+            >
+              Contact
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
@@ -181,7 +207,8 @@ const BentoCard = ({
 }) => (
   <motion.div
     whileHover={{ y: -5 }}
-    className={`glass-panel p-8 rounded-2xl flex flex-col justify-between group relative overflow-hidden transition-all duration-500 ${className}`}
+    viewport={{ once: true, margin: "-50px" }}
+    className={`glass-panel p-8 rounded-2xl flex flex-col justify-between group relative overflow-hidden transition-all duration-300 ${className}`}
   >
     <div className="relative z-10">
       <div className="w-14 h-14 bg-white/10 border border-white/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-cyan-500/20 group-hover:border-cyan-500/30 transition-colors">
@@ -208,7 +235,8 @@ const FloatingWhatsApp = () => (
     initial={{ scale: 0 }}
     animate={{ scale: 1 }}
     transition={{ delay: 1 }}
-    className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform cursor-pointer group"
+    className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform cursor-pointer group hover:shadow-green-500/30"
+    aria-label="Discuter sur WhatsApp"
   >
     <MessageCircle size={30} className="text-white" fill="white" />
   </motion.a>
@@ -226,7 +254,7 @@ const ContactSection = () => {
     const body = encodeURIComponent(formData.message);
     window.open(
       `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`,
-      "_blank"
+      "_blank",
     );
   };
 
@@ -243,7 +271,7 @@ const ContactSection = () => {
                 Concrétisez votre <br /> Ambition.
               </h2>
               <p className="text-gray-300 text-lg leading-relaxed">
-                Vous avez une vision ? Nous avons l&apos;expertise pour la
+                Vous avez une vision ? Nous avons l&lsquo;expertise pour la
                 réaliser. <br />
                 Basés à Ouidah, nous accompagnons les entreprises ambitieuses
                 partout dans le monde.
@@ -346,8 +374,9 @@ export default function Home() {
 
       {/* HERO SECTION */}
       <section className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden px-4 pt-20 md:pt-0">
-        <div className="absolute top-0 left-0 w-full h-[500px] bg-blue-500/10 blur-[120px] pointer-events-none" />
+        <div className="absolute top-0 left-0 w-full h-[500px] bg-blue-500/10 blur-[80px] md:blur-[120px] pointer-events-none will-change-transform" />
         <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20 pointer-events-none mix-blend-overlay"></div>
+
         <div className="relative z-10 text-center max-w-5xl mx-auto space-y-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -358,17 +387,19 @@ export default function Home() {
             <Zap size={16} className="text-yellow-400 fill-yellow-400" />
             <span>Solutions Digitales Premium</span>
           </motion.div>
+
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-5xl sm:text-7xl md:text-8xl font-extrabold tracking-tight leading-none text-white drop-shadow-2xl"
           >
-            L&apos;Excellence <br />
+            L&lsquo;Excellence <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-500">
               Numérique.
             </span>
           </motion.h1>
+
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -379,6 +410,7 @@ export default function Home() {
             <br /> Site web, applications, logiciels : transformez vos idées en
             succès.
           </motion.p>
+
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -412,6 +444,8 @@ export default function Home() {
               résultats.
             </p>
           </div>
+
+          {/* GRILLE OPTIMISÉE POUR LE CLS (Layout Shift) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 auto-rows-fr">
             <BentoCard
               className="md:col-span-1 md:row-span-2 bg-gradient-to-b from-slate-800 to-transparent border-slate-700 min-h-[350px]"
@@ -472,8 +506,8 @@ export default function Home() {
               transition={{ delay: 0.2 }}
               className="text-amber-100/70 max-w-2xl mx-auto text-xl italic font-serif"
             >
-              &quot;Préserver l&apos;histoire pour les générations futures grâce
-              au numérique.&quot;
+              Préserver l&lsquo;histoire pour les générations futures grâce au
+              numérique.
             </motion.p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -494,7 +528,7 @@ export default function Home() {
               <p className="text-gray-400 font-sans leading-relaxed mb-6">
                 Situé au cœur de la cité historique, notre centre est un espace
                 vivant. Expositions, conférences et médiation culturelle pour
-                vivre l&apos;histoire en direct.
+                vivre l&lsquo;histoire en direct.
               </p>
               <div className="inline-flex items-center gap-2 text-amber-500 font-bold uppercase text-xs">
                 Visiter le site dédié <ArrowRight size={14} />
@@ -508,7 +542,7 @@ export default function Home() {
                 <History size={40} />
               </div>
               <div className="text-cyan-600 font-bold tracking-widest text-xs uppercase mb-2">
-                L&apos;Innovation
+                L&lsquo;Innovation
               </div>
               <h3 className="text-3xl text-white mb-4 font-serif">
                 Musée Virtuel 3D
@@ -547,7 +581,7 @@ export default function Home() {
                 <span className="text-white font-bold text-xl">NOVA ENT.</span>
               </div>
               <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
-                L&apos;agence digitale de référence au Bénin. Nous fusionnons
+                L&lsquo;agence digitale de référence au Bénin. Nous fusionnons
                 créativité, technologie et culture pour propulser les
                 entreprises audacieuses.
               </p>
@@ -609,7 +643,7 @@ export default function Home() {
                   <Mail size={14} /> {CONTACT_EMAIL}
                 </li>
                 <li className="flex items-center gap-2 text-cyan-400 font-bold">
-                  <MessageCircle size={14} /> +229 01 69 78 33 65
+                  <MessageCircle size={14} /> +229 69 78 33 65
                 </li>
               </ul>
             </div>
