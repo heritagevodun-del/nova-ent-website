@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Inter, Cinzel } from "next/font/google"; // Importation des polices
+import { Inter, Cinzel } from "next/font/google";
 import "./globals.css";
 
-// 1. Configuration des polices (Optimisation Next.js)
+// 1. Configuration des polices
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -15,57 +15,58 @@ const cinzel = Cinzel({
   display: "swap",
 });
 
-// 2. Stratégie SEO & Métadonnées
+// 2. Stratégie SEO & Métadonnées (Prestige)
 export const metadata: Metadata = {
-  // URL de base (Indispensable pour les images OG sur les réseaux)
-  metadataBase: new URL("https://nova-ent-website.vercel.app/"),
+  // ⚠️ MISE À JOUR CRITIQUE : Le nouveau domaine officiel
+  metadataBase: new URL("https://nova-ent.agency"),
 
   title: {
-    default: "NOVA ENT | Agence Digitale & Métavers à Ouidah",
+    default: "NOVA ENT | Architecte de Solutions Numériques & SaaS",
     template: "%s | NOVA ENT",
   },
   description:
-    "Agence experte en développement web, logiciels sur-mesure et préservation numérique du patrimoine Vodun. Basée à Ouidah, Bénin. Transformez votre vision en réalité.",
+    "Agence d'ingénierie logicielle et de design numérique. De la Landing Page ultra-rapide au SaaS d'entreprise complexe, nous transformons votre vision en infrastructures souveraines.",
 
   keywords: [
     "Agence Web Bénin",
-    "Développement Logiciel Ouidah",
+    "Développement Logiciel",
+    "Création SaaS",
+    "Nova ENT",
+    "Ouidah",
     "Métavers Vodun",
-    "Transformation Digitale Afrique",
-    "NOVA ENT",
-    "Création Site Web Cotonou",
-    "Musée Virtuel 3D",
-    "Patrimoine Culturel Numérique",
+    "Transformation Digitale",
+    "Architecte Logiciel",
   ],
 
-  authors: [{ name: "NOVA ENT Team" }],
+  authors: [{ name: "NOVA ENT" }],
   creator: "NOVA ENT",
   publisher: "NOVA ENT Network",
 
   // Apparence sur Facebook / LinkedIn / WhatsApp
   openGraph: {
-    title: "NOVA ENT | L'Excellence Numérique au Bénin",
+    title: "NOVA ENT | L'Excellence Numérique",
     description:
-      "Solutions digitales premium et innovation culturelle. Découvrez le premier Métavers Vodun.",
+      "Solutions digitales premium, infrastructures SaaS et innovation culturelle au Bénin.",
     siteName: "NOVA ENT",
     locale: "fr_FR",
     type: "website",
     images: [
       {
-        url: "/logo-nova.png", // ⚠️ Vérifie que ce fichier est bien dans le dossier /public
+        url: "/logo-nova.png",
         width: 800,
         height: 800,
         alt: "Logo NOVA ENT",
       },
     ],
-  }, // <--- C'était ici l'erreur : fermeture de l'objet openGraph
+  },
 
   // Apparence sur Twitter (X)
   twitter: {
     card: "summary_large_image",
-    title: "NOVA ENT | Futur & Tradition",
-    description: "Agence digitale experte à Ouidah. Web, Mobile & Métavers.",
-    images: ["/logo-nova.png"], // Ajout recommandé pour Twitter aussi
+    title: "NOVA ENT | Architecte Logiciel",
+    description:
+      "Agence d'ingénierie logicielle experte. Web, Mobile, SaaS & Métavers.",
+    images: ["/logo-nova.png"],
   },
 
   // Instructions pour les robots d'indexation (Google)
@@ -90,13 +91,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className="scroll-smooth">
-      {/* Application des classes globales :
-          - inter.className : Police corps de texte par défaut
-          - cinzel.variable : Variable CSS pour les titres (ex: font-cinzel)
-          - bg-[#020617] : Fond "Slate 950" (Thème sombre profond)
-      */}
+      {/* MISE À JOUR : bg-[#050505] pour fusionner parfaitement avec le nouveau design */}
       <body
-        className={`${inter.className} ${cinzel.variable} bg-[#020617] text-white antialiased selection:bg-cyan-500/30`}
+        className={`${inter.className} ${cinzel.variable} bg-[#050505] text-white antialiased selection:bg-cyan-500/30`}
       >
         {children}
       </body>

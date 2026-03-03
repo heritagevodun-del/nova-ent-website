@@ -1,10 +1,15 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Lenis from "lenis";
+import { useAnimationFrame } from "framer-motion";
 
 export default function SmoothScroll() {
+  // On stocke l'instance de Lenis dans une référence pour ne pas re-déclencher de rendus React
+  const lenisRef = useRef<Lenis | null>(null);
+
   useEffect(() => {
+    // Initialisation du moteur de scroll
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -12,20 +17,25 @@ export default function SmoothScroll() {
       gestureOrientation: "vertical",
       smoothWheel: true,
       wheelMultiplier: 1,
-      touchMultiplier: 2,
+      touchMultiplier: 2, // Scroll réactif et luxueux sur mobile
     });
 
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
+    lenisRef.current = lenis;
 
-    requestAnimationFrame(raf);
-
+    // Nettoyage clinique au démontage
     return () => {
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, []);
+
+  // 🚀 L'ASTUCE DU CTO : Synchronisation parfaite avec la boucle de Framer Motion
+  // Plus de conflit, une seule boucle de rendu (60 ou 120 FPS selon l'écran)
+  useAnimationFrame((time) => {
+    if (lenisRef.current) {
+      lenisRef.current.raf(time);
+    }
+  });
 
   return null;
 }
