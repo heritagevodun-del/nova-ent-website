@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Inter, Cinzel } from "next/font/google";
 import Link from "next/link";
@@ -14,7 +14,6 @@ import {
   Palette,
   MapPin,
   Mail,
-  MessageCircle,
   Send,
   Menu,
   X,
@@ -44,7 +43,6 @@ const cinzel = Cinzel({
 
 // --- CONFIGURATION ---
 const CONTACT_EMAIL = "joindre.novaent@gmail.com";
-const WHATSAPP_NUMBER = "+22969783365";
 const MAP_LINK = "https://www.google.com/maps/search/?api=1&query=Ouidah+Benin";
 const HERITAGE_URL = "https://www.heritagevodun.com/";
 
@@ -53,11 +51,9 @@ const HERITAGE_URL = "https://www.heritagevodun.com/";
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const triggerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const trigger = document.getElementById("nav-trigger");
-    if (!trigger) return;
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         setScrolled(!entry.isIntersecting);
@@ -65,7 +61,10 @@ const Navbar = () => {
       { threshold: 0, rootMargin: "0px" },
     );
 
-    observer.observe(trigger);
+    if (triggerRef.current) {
+      observer.observe(triggerRef.current);
+    }
+    
     return () => observer.disconnect();
   }, []);
 
@@ -84,7 +83,7 @@ const Navbar = () => {
   return (
     <>
       <div
-        id="nav-trigger"
+        ref={triggerRef}
         className="absolute top-0 left-0 w-full h-1 pointer-events-none opacity-0"
       />
 
@@ -244,21 +243,6 @@ const BentoCard = ({
       </p>
     </div>
   </motion.div>
-);
-
-const FloatingWhatsApp = () => (
-  <motion.a
-    href={`https://wa.me/${WHATSAPP_NUMBER}`}
-    target="_blank"
-    rel="noopener noreferrer"
-    initial={{ scale: 0 }}
-    animate={{ scale: 1 }}
-    transition={{ delay: 1 }}
-    className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform cursor-pointer group hover:shadow-green-500/30"
-    aria-label="WhatsApp"
-  >
-    <MessageCircle size={30} className="text-white" fill="white" />
-  </motion.a>
 );
 
 // --- SECTION PRICING (SaaS & Agence) ---
@@ -670,7 +654,6 @@ export default function Home() {
       className={`min-h-screen bg-[#050505] selection:bg-cyan-500/30 selection:text-white ${inter.className}`}
     >
       <Navbar />
-      <FloatingWhatsApp />
 
       {/* HERO SECTION */}
       <section className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden px-4 pt-20 md:pt-0">
@@ -962,9 +945,6 @@ export default function Home() {
                 </li>
                 <li className="flex items-center gap-2">
                   <Mail size={14} /> {CONTACT_EMAIL}
-                </li>
-                <li className="flex items-center gap-2 text-cyan-400 font-bold">
-                  <MessageCircle size={14} /> +229 69 78 33 65
                 </li>
               </ul>
             </div>
