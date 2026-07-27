@@ -160,7 +160,7 @@ export default function MuseeGallery() {
         </div>
       </main>
 
-      <footer className="fixed bottom-0 w-full p-6 text-center z-50 pointer-events-none">
+      <footer className="w-full p-6 text-center mt-auto relative z-10">
         <p className="text-[10px] text-gray-600 uppercase tracking-[0.3em] font-mono">
           © {new Date().getFullYear()} NOVA ENT. • SYSTEM READY
         </p>
