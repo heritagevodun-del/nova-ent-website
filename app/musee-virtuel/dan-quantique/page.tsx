@@ -1,16 +1,7 @@
 "use client";
 
-import React, { useRef, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import {
-  OrbitControls,
-  Float,
-  Stars,
-  Sparkles,
-  MeshDistortMaterial,
-  Trail,
-} from "@react-three/drei";
-import * as THREE from "three";
+import React from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -29,191 +20,19 @@ const cinzel = Cinzel({
   display: "swap",
 });
 
-// --- L'ARTEFACT : DAN (LA MATRICE INFINIE ARC-EN-CIEL) ---
-function DanMatrix() {
-  const groupRef = useRef<THREE.Group>(null);
-  const ringRef = useRef<THREE.Mesh>(null);
-  const wireframeRef = useRef<THREE.Mesh>(null);
-
-  // Mouvement perpétuel (Dan ne s'arrête jamais)
-  useFrame((state, delta) => {
-    if (groupRef.current && ringRef.current && wireframeRef.current) {
-      // Rotation cosmique lente globale
-      groupRef.current.rotation.y += delta * 0.15;
-      groupRef.current.rotation.x =
-        Math.sin(state.clock.elapsedTime * 0.2) * 0.3;
-
-      // L'anneau principal tourne sur lui-même comme un serpent qui rampe
-      ringRef.current.rotation.x -= delta * 0.5;
-      wireframeRef.current.rotation.x -= delta * 0.5;
-    }
-  });
-
-  // Matériau de la cage "Matrice" autour du serpent
-  const matrixWireframeMaterial = useMemo(
-    () =>
-      new THREE.MeshPhysicalMaterial({
-        color: "#ffffff",
-        emissive: "#ffffff",
-        emissiveIntensity: 0.2,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.15,
-      }),
-    [],
-  );
-
-  return (
-    <group ref={groupRef}>
-      {/* L'OUROBOROS / NŒUD DE MÖBIUS ARC-EN-CIEL */}
-      <Trail
-        width={3}
-        color={"#ff00ff"} // Traînée magenta
-        length={5}
-        decay={1}
-        local={false}
-        stride={0}
-        interval={1}
-      >
-        {/* Le corps fluide du serpent (Les normales génèrent l'arc-en-ciel) */}
-        <mesh ref={ringRef} scale={1.5}>
-          <torusKnotGeometry args={[1, 0.4, 256, 64, 2, 3]} />
-          <meshNormalMaterial />
-        </mesh>
-      </Trail>
-
-      {/* SURCOUCHE WIREFRAME (La cage de la Matrice) */}
-      <mesh ref={wireframeRef} scale={1.51}>
-        <torusKnotGeometry args={[1, 0.4, 256, 32, 2, 3]} />
-        <primitive object={matrixWireframeMaterial} attach="material" />
-      </mesh>
-
-      {/* LE COEUR QUANTIQUE (Source d'énergie) */}
-      <mesh scale={0.75}>
-        <sphereGeometry args={[1, 64, 64]} />
-        <MeshDistortMaterial
-          color="#ff0055"
-          emissive="#ff0055"
-          emissiveIntensity={1}
-          distort={0.6}
-          speed={3}
-          transparent={true}
-          opacity={0.4}
-        />
-      </mesh>
-
-      {/* ANNEAUX D'ONDES GRAVITATIONNELLES (Spectre de l'arc-en-ciel) */}
-      <mesh rotation={[Math.PI / 2, 0, 0]} scale={2.6}>
-        <ringGeometry args={[0.9, 0.92, 64]} />
-        <meshBasicMaterial
-          color="#00ff00"
-          transparent
-          opacity={0.6}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
-      <mesh rotation={[Math.PI / 2, 0, 0]} scale={3.4}>
-        <ringGeometry args={[0.9, 0.915, 64]} />
-        <meshBasicMaterial
-          color="#0000ff"
-          transparent
-          opacity={0.4}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
-      <mesh rotation={[Math.PI / 2, 0, 0]} scale={4.2}>
-        <ringGeometry args={[0.9, 0.91, 64]} />
-        <meshBasicMaterial
-          color="#ff0000"
-          transparent
-          opacity={0.2}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
-    </group>
-  );
-}
-
-// --- COMPOSANT DE LA SCÈNE 3D ---
-function SceneDan() {
-  return (
-    <div className="h-[50vh] md:h-full w-full bg-[#03010a] rounded-3xl overflow-hidden relative border border-white/10 shadow-[0_0_50px_rgba(255,255,255,0.05)]">
-      <Canvas camera={{ position: [0, 0, 8], fov: 45 }}>
-        {/* ÉCLAIRAGE */}
-        <ambientLight intensity={0.3} />
-
-        <Float speed={1.5} rotationIntensity={0.5} floatIntensity={1}>
-          <DanMatrix />
-        </Float>
-
-        {/* ENVIRONNEMENT (Le cosmos profond) */}
-        <Stars
-          radius={100}
-          depth={50}
-          count={5000}
-          factor={4}
-          saturation={1}
-          fade
-          speed={0.5}
-        />
-
-        {/* PARTICULES D'ÉNERGIE (Nuée arc-en-ciel) */}
-        <Sparkles
-          count={100}
-          scale={8}
-          size={2}
-          speed={1}
-          opacity={0.8}
-          color="#ff0000"
-        />
-        <Sparkles
-          count={100}
-          scale={8}
-          size={2}
-          speed={1}
-          opacity={0.8}
-          color="#00ff00"
-        />
-        <Sparkles
-          count={100}
-          scale={8}
-          size={2}
-          speed={1}
-          opacity={0.8}
-          color="#0000ff"
-        />
-        <Sparkles
-          count={100}
-          scale={8}
-          size={2}
-          speed={1}
-          opacity={0.8}
-          color="#ffff00"
-        />
-
-        <OrbitControls
-          enableZoom={false}
-          enablePan={false}
-          autoRotate
-          autoRotateSpeed={1}
-        />
-      </Canvas>
-
-      <div className="absolute top-4 left-4 flex flex-col gap-2 pointer-events-none">
-        <div className="bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/20">
-          <p className="text-[10px] text-gray-300 font-mono uppercase tracking-widest flex items-center gap-1">
-            <InfinityIcon size={10} /> Signature Énergétique
-          </p>
-          <p className="text-xs text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-yellow-400 to-blue-500 font-bold font-mono">
-            SPECTRE COMPLET
-          </p>
-        </div>
-      </div>
+// L'ASTUCE PERFORMANCE : Chargement différé de la 3D (Zéro blocage)
+const SceneDan = dynamic(() => import("./SceneDan"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex flex-col items-center justify-center bg-[#03010a] rounded-3xl border border-white/10">
+      <InfinityIcon size={32} className="text-cyan-500 animate-spin mb-4" />
+      <span className="text-cyan-400 font-mono text-xs tracking-widest animate-pulse">
+        CALIBRAGE QUANTIQUE...
+      </span>
     </div>
-  );
-}
+  ),
+});
 
-// --- LA PAGE COMPLÈTE ---
 export default function DanQuantiquePage() {
   const handleContact = () => {
     const email = "joindre.novaent@gmail.com";
@@ -274,6 +93,7 @@ export default function DanQuantiquePage() {
         >
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-r from-red-600/10 via-purple-600/10 to-blue-600/10 blur-[120px] rounded-full pointer-events-none" />
           <div className="w-full h-full p-1 bg-gradient-to-b from-white/5 to-transparent backdrop-blur-sm rounded-3xl">
+            {/* C'est ici que la magie du loading opère */}
             <SceneDan />
           </div>
         </motion.div>
@@ -294,36 +114,37 @@ export default function DanQuantiquePage() {
             >
               DAN <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-yellow-400 to-blue-500">
-                L&quot;Étreinte Cosmique.
+                L&apos;Étreinte Cosmique.
               </span>
             </h1>
             <p className="text-slate-400 italic">
-              &quot;Le gardien du mouvement, là où l&quot;énergie ne meurt jamais,
-              mais se transforme.&quot;
+              &quot;Le gardien du mouvement, là où l&apos;énergie ne meurt
+              jamais, mais se transforme.&quot;
             </p>
           </div>
 
           <div className="space-y-6 text-slate-300 leading-relaxed text-sm md:text-base border-l-2 border-white/20 pl-6">
             <p>
-              Dans la pensée endogène, l&quot;univers n&quot;est pas figé. Pour que la
-              Terre demeure stable, il fallait une force d&quot;amour et de cohésion
-              : <strong>Dan Ayido Hwédo</strong>. Ce n&quot;est pas un simple
-              reptile, mais l&quot;énergie sacrée qui s&quot;enroule autour du monde,
-              maintenant chaque océan et chaque montagne à sa juste place.
+              Dans la pensée endogène, l&apos;univers n&apos;est pas figé. Pour
+              que la Terre demeure stable, il fallait une force d&apos;amour et
+              de cohésion : <strong>Dan Ayido Hwédo</strong>. Ce n&apos;est pas
+              un simple reptile, mais l&apos;énergie sacrée qui s&apos;enroule
+              autour du monde, maintenant chaque océan et chaque montagne à sa
+              juste place.
             </p>
             <p>
               Cet artefact numérique, construit sur un Ouroboros infini, simule{" "}
               <strong>la danse des fluides</strong>. Comme Dan qui fait monter
               la sève des arbres et battre le sang dans nos veines, cette
               matrice illustre la loi de la prospérité Vodun : la véritable
-              richesse, comme l&quot;eau, doit circuler et être partagée pour ne
+              richesse, comme l&apos;eau, doit circuler et être partagée pour ne
               jamais se dessécher.
             </p>
             <p>
-              L&quot;arc-en-ciel qui l&quot;habite n&quot;est pas un hasard optique, mais un
-              pont d&quot;harmonie jeté entre le royaume de l&quot;invisible et notre
-              réalité. Un rappel apaisant que tout est un éternel
-              recommencement.
+              L&apos;arc-en-ciel qui l&apos;habite n&apos;est pas un hasard
+              optique, mais un pont d&apos;harmonie jeté entre le royaume de
+              l&apos;invisible et notre réalité. Un rappel apaisant que tout est
+              un éternel recommencement.
             </p>
           </div>
 

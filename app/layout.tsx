@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Cinzel } from "next/font/google";
 import "./globals.css";
+import SmoothScroll from "./components/SmoothScroll";
 
 // 1. Configuration des polices
 const inter = Inter({
@@ -17,7 +18,6 @@ const cinzel = Cinzel({
 
 // 2. Stratégie SEO & Métadonnées (Prestige)
 export const metadata: Metadata = {
-  // ⚠️ MISE À JOUR CRITIQUE : Le nouveau domaine officiel
   metadataBase: new URL("https://nova-ent.agency"),
 
   title: {
@@ -90,12 +90,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className="scroll-smooth">
-      {/* MISE À JOUR : bg-[#050505] pour fusionner parfaitement avec le nouveau design */}
+    /* Suppression de "scroll-smooth" natif pour laisser Lenis gérer la physique */
+    <html lang="fr">
       <body
         className={`${inter.className} ${cinzel.variable} bg-[#050505] text-white antialiased selection:bg-cyan-500/30`}
       >
-        {children}
+        <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
   );
