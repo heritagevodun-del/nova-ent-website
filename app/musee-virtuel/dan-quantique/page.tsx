@@ -294,46 +294,54 @@ export default function DanQuantiquePage() {
             >
               DAN <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-yellow-400 to-blue-500">
-                La Matrice Infinie.
+                L&quot;Étreinte Cosmique.
               </span>
             </h1>
             <p className="text-slate-400 italic">
-              &quot;Le principe de continuité, là où l&apos;énergie ne meurt
-              jamais.&quot;
+              &quot;Le gardien du mouvement, là où l&quot;énergie ne meurt jamais,
+              mais se transforme.&quot;
             </p>
           </div>
 
-          <div className="space-y-6 text-slate-300 leading-relaxed text-lg border-l-2 border-white/20 pl-6">
+          <div className="space-y-6 text-slate-300 leading-relaxed text-sm md:text-base border-l-2 border-white/20 pl-6">
             <p>
-              Dans la cosmogonie Vodun, <strong>Dan</strong> n&apos;est pas un
-              simple serpent. C&apos;est l&apos;arc-en-ciel, le cordon ombilical
-              de l&apos;univers, l&apos;énergie fluide qui relie la terre au
-              ciel et assure le mouvement perpétuel de la vie.
+              Dans la pensée endogène, l&quot;univers n&quot;est pas figé. Pour que la
+              Terre demeure stable, il fallait une force d&quot;amour et de cohésion
+              : <strong>Dan Ayido Hwédo</strong>. Ce n&quot;est pas un simple
+              reptile, mais l&quot;énergie sacrée qui s&quot;enroule autour du monde,
+              maintenant chaque océan et chaque montagne à sa juste place.
             </p>
             <p>
-              Cet artefact numérique incarne ce principe. Construit sur un nœud
-              mathématique infini, il représente la{" "}
-              <strong>circulation des données et de la richesse</strong>. Comme
-              l&apos;Ouroboros qui se mord la queue, Dan nous rappelle que tout
-              flux crée une boucle éternelle.
+              Cet artefact numérique, construit sur un Ouroboros infini, simule{" "}
+              <strong>la danse des fluides</strong>. Comme Dan qui fait monter
+              la sève des arbres et battre le sang dans nos veines, cette
+              matrice illustre la loi de la prospérité Vodun : la véritable
+              richesse, comme l&quot;eau, doit circuler et être partagée pour ne
+              jamais se dessécher.
+            </p>
+            <p>
+              L&quot;arc-en-ciel qui l&quot;habite n&quot;est pas un hasard optique, mais un
+              pont d&quot;harmonie jeté entre le royaume de l&quot;invisible et notre
+              réalité. Un rappel apaisant que tout est un éternel
+              recommencement.
             </p>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="p-4 bg-white/5 rounded-xl border border-white/5">
               <h4 className="text-xs text-slate-500 uppercase tracking-wider mb-1">
-                Attribut
+                Principe Actif
               </h4>
               <p className="font-bold text-white flex items-center gap-2">
-                Mouvement Perpétuel
+                Circulation & Partage
               </p>
             </div>
             <div className="p-4 bg-white/5 rounded-xl border border-white/5">
               <h4 className="text-xs text-slate-500 uppercase tracking-wider mb-1">
-                Élément
+                Manifestation
               </h4>
               <p className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-green-400 to-blue-400">
-                Eau & Arc-en-ciel
+                Pont Arc-en-ciel
               </p>
             </div>
           </div>
@@ -343,7 +351,7 @@ export default function DanQuantiquePage() {
               onClick={handleContact}
               className="flex-1 py-4 bg-white text-black font-extrabold rounded-xl hover:bg-gray-200 transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:scale-[1.02] active:scale-95"
             >
-              <Mail size={18} /> Echanger sur un projet
+              <Mail size={18} /> Échanger sur un projet
             </button>
             <button
               onClick={handleShare}
