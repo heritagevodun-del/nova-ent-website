@@ -6,6 +6,15 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 100px;
+  
+  /* MODIFICATION : Masquer la barre pour éviter les sauts de layout (Layout Shift) */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* MODIFICATION : Masquer la barre sur Chrome/Safari/Opera */
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+  display: none;
 }
 
 :root {
@@ -24,21 +33,6 @@ body {
   background: radial-gradient(circle at 50% 0%, #1e293b 0%, #020617 100%);
   background-attachment: fixed; /* Le fond reste fixe quand on scroll */
   -webkit-font-smoothing: antialiased;
-}
-
-/* Scrollbar Design */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #020617;
-}
-::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #475569;
 }
 
 /* Glassmorphism PLUS LUMINEUX & COMPATIBLE APPLE */
